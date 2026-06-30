@@ -23,7 +23,7 @@ export default function Performance() {
   return (
     <div>
       <div className="mb-8">
-        <div className="text-xs mono uppercase tracking-[0.25em] text-[#FF6200] mb-2">My Performance</div>
+        <div className="text-xs mono uppercase tracking-[0.25em] text-[#FFFFFF] mb-2">My Performance</div>
         <h1 className="text-3xl lg:text-4xl font-semibold tracking-tight">Where the grind shows up.</h1>
       </div>
 
@@ -44,9 +44,9 @@ export default function Performance() {
               <YAxis tick={{ fill: "#888", fontSize: 10, fontFamily: "JetBrains Mono" }} allowDecimals={false} />
               <Tooltip
                 contentStyle={{ background: "#1F1F1F", border: "1px solid #2A2A2A", borderRadius: 8, color: "#fff", fontFamily: "JetBrains Mono", fontSize: 12 }}
-                cursor={{ fill: "rgba(255,98,0,0.1)" }}
+                cursor={{ fill: "rgba(255,255,255,0.1)" }}
               />
-              <Bar dataKey="solved" fill="#FF6200" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="solved" fill="#FFFFFF" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -58,10 +58,10 @@ export default function Performance() {
           <div className="grid grid-cols-7 sm:grid-cols-12 gap-1.5">
             {calendar.map((d) => {
               const intensity = Math.min(4, d.solved);
-              const bg = ["#1F1F1F", "rgba(255,98,0,0.35)", "rgba(255,98,0,0.55)", "rgba(255,98,0,0.75)", "#FF6200"][intensity];
+              const bg = ["#1F1F1F", "rgba(255,255,255,0.35)", "rgba(255,255,255,0.55)", "rgba(255,255,255,0.75)", "#FFFFFF"][intensity];
               return (
                 <div key={d.date} title={`${d.date}: ${d.solved} solved`}
-                  className="aspect-square rounded-[4px] border border-[#2A2A2A] hover:border-[#FF6200] transition-colors"
+                  className="aspect-square rounded-[4px] border border-[#2A2A2A] hover:border-[#FFFFFF] transition-colors"
                   style={{ background: bg }}
                 />
               );
@@ -69,7 +69,7 @@ export default function Performance() {
           </div>
           <div className="flex items-center gap-2 mt-4 text-xs text-[#888]">
             Less
-            {["#1F1F1F","rgba(255,98,0,0.35)","rgba(255,98,0,0.55)","rgba(255,98,0,0.75)","#FF6200"].map((c, i) => (
+            {["#1F1F1F","rgba(255,255,255,0.35)","rgba(255,255,255,0.55)","rgba(255,255,255,0.75)","#FFFFFF"].map((c, i) => (
               <div key={i} className="w-3.5 h-3.5 rounded-[3px]" style={{ background: c, border: "1px solid #2A2A2A" }} />
             ))}
             More
@@ -82,7 +82,7 @@ export default function Performance() {
           <div className="space-y-3">
             {perf.recent.map((a, i) => (
               <div key={i} className="flex items-start gap-3 text-sm">
-                <div className="w-1.5 h-1.5 mt-2 rounded-full bg-[#FF6200]" />
+                <div className="w-1.5 h-1.5 mt-2 rounded-full bg-[#FFFFFF]" />
                 <div className="flex-1">
                   <div className="text-white">{a.title}</div>
                   <div className="text-xs text-[#888] mono">+{a.xp_earned} XP · {a.date}</div>
@@ -100,7 +100,7 @@ function Stat({ icon: Icon, label, value, unit }) {
   return (
     <div className="surface-card p-5">
       <div className="flex items-center gap-2 text-xs mono uppercase tracking-widest text-[#888] mb-2">
-        <Icon size={14} className="text-[#FF6200]" /> {label}
+        <Icon size={14} className="text-[#FFFFFF]" /> {label}
       </div>
       <div className="flex items-baseline gap-1">
         <span className="mono text-3xl font-bold text-white">{value}</span>

@@ -56,11 +56,11 @@ export default function Onboarding() {
   return (
     <div className="min-h-screen bg-black text-white px-4 py-10 flex items-center justify-center">
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-[#FF6200]/10 blur-3xl" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-[#FFFFFF]/10 blur-3xl" />
       </div>
       <div className="relative w-full max-w-2xl">
         <div className="flex items-center gap-2 mb-8">
-          <div className="w-8 h-8 rounded-lg bg-[#FF6200] flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-[#FFFFFF] flex items-center justify-center">
             <Sparkles size={14} className="text-black" />
           </div>
           <div className="font-bold tracking-tight">SkillSync · Onboarding</div>
@@ -68,7 +68,7 @@ export default function Onboarding() {
 
         <div className="flex items-center gap-2 mb-6">
           {[0, 1, 2, 3].map((i) => (
-            <div key={i} className={`h-1 flex-1 rounded-full transition-all ${i <= step ? "bg-[#FF6200]" : "bg-[#2A2A2A]"}`} />
+            <div key={i} className={`h-1 flex-1 rounded-full transition-all ${i <= step ? "bg-[#FFFFFF]" : "bg-[#2A2A2A]"}`} />
           ))}
         </div>
 
@@ -86,10 +86,10 @@ export default function Onboarding() {
                       key={g.key}
                       data-testid={TID.onbGoalCard(g.key)}
                       onClick={() => setGoal(g.key)}
-                      className={`text-left p-4 rounded-xl border transition-all ${active ? "border-[#FF6200] bg-[#FF6200]/10 shadow-[0_0_18px_rgba(255,98,0,0.25)]" : "border-[#2A2A2A] bg-[#1F1F1F] hover:border-[#FF6200]/40"}`}
+                      className={`text-left p-4 rounded-xl border transition-all ${active ? "border-[#FFFFFF] bg-[#FFFFFF]/10 shadow-[0_0_18px_rgba(255,255,255,0.25)]" : "border-[#2A2A2A] bg-[#1F1F1F] hover:border-[#FFFFFF]/40"}`}
                     >
                       <div className="flex items-center gap-3 mb-2">
-                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${active ? "bg-[#FF6200] text-black" : "bg-[#2A2A2A] text-[#FF6200]"}`}>
+                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${active ? "bg-[#FFFFFF] text-black" : "bg-[#2A2A2A] text-[#FFFFFF]"}`}>
                           <Icon size={18} />
                         </div>
                         <div className="font-semibold">{g.label}</div>
@@ -114,7 +114,7 @@ export default function Onboarding() {
                       key={p}
                       data-testid={TID.onbPersonalityChip(p.toLowerCase().replace(/\W/g, "-"))}
                       onClick={() => toggle(personality, setPersonality, p)}
-                      className={`px-3 py-1.5 rounded-full text-sm border transition-all ${active ? "bg-[#FF6200] text-black border-[#FF6200]" : "bg-[#1F1F1F] border-[#2A2A2A] hover:border-[#FF6200]/50"}`}
+                      className={`px-3 py-1.5 rounded-full text-sm border transition-all ${active ? "bg-[#FFFFFF] text-black border-[#FFFFFF]" : "bg-[#1F1F1F] border-[#2A2A2A] hover:border-[#FFFFFF]/50"}`}
                     >
                       {active && <Check size={12} className="inline mr-1" />}
                       {p}
@@ -143,7 +143,7 @@ export default function Onboarding() {
                       key={c}
                       data-testid={TID.onbConnectChip(c.toLowerCase().replace(/\W/g, "-"))}
                       onClick={() => toggle(connectWith, setConnectWith, c)}
-                      className={`px-3 py-1.5 rounded-full text-sm border transition-all ${active ? "bg-[#FF6200] text-black border-[#FF6200]" : "bg-[#1F1F1F] border-[#2A2A2A] hover:border-[#FF6200]/50"}`}
+                      className={`px-3 py-1.5 rounded-full text-sm border transition-all ${active ? "bg-[#FFFFFF] text-black border-[#FFFFFF]" : "bg-[#1F1F1F] border-[#2A2A2A] hover:border-[#FFFFFF]/50"}`}
                     >
                       {active && <Check size={12} className="inline mr-1" />}
                       {c}
@@ -164,8 +164,8 @@ export default function Onboarding() {
             <>
               <h2 className="text-2xl font-semibold mb-2">All set, {user.name.split(" ")[0]}.</h2>
               <p className="text-sm text-[#CCCCCC] mb-6">We'll generate your personalized {goal?.toUpperCase()} roadmap now.</p>
-              <div className="surface-card p-5 border-[#FF6200]/30">
-                <div className="text-xs mono uppercase tracking-widest text-[#FF6200] mb-2">Track</div>
+              <div className="surface-card p-5 border-[#FFFFFF]/30">
+                <div className="text-xs mono uppercase tracking-widest text-[#FFFFFF] mb-2">Track</div>
                 <div className="text-lg font-semibold mb-3 capitalize">{goal?.replace("_", " ")}</div>
                 <div className="text-sm text-[#CCCCCC] mb-3">
                   Personality: <span className="text-white">{personality.join(", ") || "—"}</span>

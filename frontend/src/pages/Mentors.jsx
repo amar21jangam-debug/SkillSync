@@ -41,14 +41,14 @@ export default function Mentors() {
   return (
     <div>
       <div className="mb-8">
-        <div className="text-xs mono uppercase tracking-[0.25em] text-[#FF6200] mb-2">Mentors</div>
+        <div className="text-xs mono uppercase tracking-[0.25em] text-[#FFFFFF] mb-2">Mentors</div>
         <h1 className="text-3xl lg:text-4xl font-semibold tracking-tight">Learn from people who've done it.</h1>
         <p className="text-[#CCCCCC] mt-2 text-sm">1:1 sessions, code reviews, and career advice.</p>
       </div>
 
       {bookings.length > 0 && (
-        <div className="surface-card p-5 mb-8 border-[#FF6200]/30">
-          <div className="text-xs mono uppercase tracking-widest text-[#FF6200] mb-3 flex items-center gap-2">
+        <div className="surface-card p-5 mb-8 border-[#FFFFFF]/30">
+          <div className="text-xs mono uppercase tracking-widest text-[#FFFFFF] mb-3 flex items-center gap-2">
             <Calendar size={13}/> Your upcoming sessions
           </div>
           <div className="space-y-2">
@@ -58,7 +58,7 @@ export default function Mentors() {
                   <div className="text-white">{b.mentor_name}</div>
                   <div className="text-xs text-[#888]">{b.mentor_role}</div>
                 </div>
-                <div className="flex items-center gap-2 text-[#FF6200] mono text-xs">
+                <div className="flex items-center gap-2 text-[#FFFFFF] mono text-xs">
                   <Clock size={12}/> {formatSlot(b.slot)}
                 </div>
               </div>
@@ -74,8 +74,8 @@ export default function Mentors() {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <div className="font-semibold text-lg">{m.name}</div>
-                <div className="text-xs mono text-[#FF6200] flex items-center gap-1">
-                  <Star size={12} fill="#FF6200" /> {m.rating}
+                <div className="text-xs mono text-[#FFFFFF] flex items-center gap-1">
+                  <Star size={12} fill="#FFFFFF" /> {m.rating}
                 </div>
               </div>
               <div className="text-sm text-[#CCCCCC]">{m.role}</div>
@@ -87,7 +87,7 @@ export default function Mentors() {
               <div className="text-sm text-[#CCCCCC] mt-3 line-clamp-2">{m.bio}</div>
               <div className="flex items-center justify-between mt-4">
                 <div className="text-xs text-[#888] flex items-center gap-1">
-                  <GraduationCap size={13} className="text-[#FF6200]"/> {m.sessions} sessions
+                  <GraduationCap size={13} className="text-[#FFFFFF]"/> {m.sessions} sessions
                 </div>
                 <button
                   data-testid={TID.mentorBookBtn(m.id)}
@@ -143,7 +143,7 @@ function BookingDialog({ mentor, onClose, onBooked }) {
         <div className="flex items-center gap-3 mb-5">
           <img src={mentor.avatar} alt={mentor.name} className="w-14 h-14 rounded-xl object-cover border border-[#2A2A2A]" />
           <div>
-            <div className="text-xs mono uppercase tracking-widest text-[#FF6200]">Book a session</div>
+            <div className="text-xs mono uppercase tracking-widest text-[#FFFFFF]">Book a session</div>
             <div className="font-semibold text-lg">{mentor.name}</div>
             <div className="text-xs text-[#CCCCCC]">{mentor.role}</div>
           </div>
@@ -158,10 +158,10 @@ function BookingDialog({ mentor, onClose, onBooked }) {
                 key={s}
                 data-testid={TID.mentorSlotBtn(s)}
                 onClick={() => setSlot(s)}
-                className={`text-left px-3 py-2 rounded-lg border text-sm transition-all ${active ? "border-[#FF6200] bg-[#FF6200]/10 text-white" : "border-[#2A2A2A] bg-[#141414] text-[#CCCCCC] hover:border-[#FF6200]/50"}`}
+                className={`text-left px-3 py-2 rounded-lg border text-sm transition-all ${active ? "border-[#FFFFFF] bg-[#FFFFFF]/10 text-white" : "border-[#2A2A2A] bg-[#141414] text-[#CCCCCC] hover:border-[#FFFFFF]/50"}`}
               >
                 <div className="flex items-center gap-2">
-                  {active && <Check size={13} className="text-[#FF6200]"/>}
+                  {active && <Check size={13} className="text-[#FFFFFF]"/>}
                   {formatSlot(s)}
                 </div>
               </button>

@@ -46,7 +46,7 @@ export default function Sidebar({ open, onClose }) {
       >
         <div className="px-6 py-6 border-b border-[#1F1F1F]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-[#FF6200] flex items-center justify-center glow-orange">
+            <div className="w-10 h-10 rounded-lg bg-[#FFFFFF] flex items-center justify-center glow-white">
               <Sparkles size={20} className="text-black" />
             </div>
             <div>
@@ -59,14 +59,14 @@ export default function Sidebar({ open, onClose }) {
         {user && (
           <div className="px-4 py-4 border-b border-[#1F1F1F]">
             <div className="flex items-center gap-3 mb-3">
-              <img src={user.avatar} alt="" className="w-10 h-10 rounded-full border border-[#FF6200]" />
+              <img src={user.avatar} alt="" className="w-10 h-10 rounded-full border border-[#FFFFFF]" />
               <div className="min-w-0">
                 <div className="text-sm font-medium text-white truncate">{user.name}</div>
                 <div className="text-xs text-[#888] truncate">Level {user.level}</div>
               </div>
             </div>
             <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-1 text-[#FF6200]">
+              <div className="flex items-center gap-1 text-[#FFFFFF]">
                 <Flame size={14} /> <span className="mono">{user.streak}</span>
               </div>
               <div className="mono text-[#CCCCCC]">{user.xp} XP</div>
@@ -77,7 +77,7 @@ export default function Sidebar({ open, onClose }) {
         <LevelSwitcher />
 
         <nav className="flex-1 py-4 overflow-y-auto relative">
-          <div ref={indicatorRef} className="absolute left-0 top-0 w-[2px] h-10 bg-[#FF6200] rounded-r" />
+          <div ref={indicatorRef} className="absolute left-0 top-0 w-[2px] h-10 bg-[#FFFFFF] rounded-r" />
           {ITEMS.map((it) => {
             const Icon = it.icon;
             return (
@@ -103,7 +103,7 @@ export default function Sidebar({ open, onClose }) {
         <button
           onClick={logout}
           data-testid={TID.sidebarLogout}
-          className="m-4 flex items-center gap-2 px-4 py-2 text-sm text-[#CCCCCC] hover:text-[#FF6200] border border-[#1F1F1F] rounded-lg hover:border-[#FF6200]/40 transition-all"
+          className="m-4 flex items-center gap-2 px-4 py-2 text-sm text-[#CCCCCC] hover:text-[#FFFFFF] border border-[#1F1F1F] rounded-lg hover:border-[#FFFFFF]/40 transition-all"
         >
           <LogOut size={16} /> Logout
         </button>

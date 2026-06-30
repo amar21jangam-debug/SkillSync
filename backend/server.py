@@ -8,7 +8,7 @@ import os
 import logging
 import random
 from pathlib import Path
-from datetime import datetime, timezone, date
+from datetime import datetime, timezone, date, timedelta
 from typing import List
 
 ROOT_DIR = Path(__file__).parent
@@ -72,7 +72,7 @@ async def register(body: UserRegister):
         "email": body.email.lower(),
         "name": body.name,
         "password_hash": hash_password(body.password),
-        "avatar": f"https://api.dicebear.com/7.x/initials/svg?seed={body.name}&backgroundColor=FF6200",
+        "avatar": f"https://api.dicebear.com/7.x/initials/svg?seed={body.name}&backgroundColor=ffffff&textColor=000000",
         "goal": None,
         "personality": [],
         "personality_text": "",
@@ -217,8 +217,6 @@ async def get_performance(user_id: str = Depends(get_current_user_id)):
     by_day: dict[str, int] = {}
     for a in activity:
         by_day[a["date"]] = by_day.get(a["date"], 0) + 1
-    # build last 14 days
-    from datetime import timedelta
     today = date.today()
     chart = []
     for i in range(13, -1, -1):
@@ -244,7 +242,8 @@ async def list_contests():
 # ---------- Groups ----------
 @api.get("/groups")
 async def list_groups(user_id: str = Depends(get_current_user_id)):
-    # Use sample groups + augment with stored chat
+    user = await db.users.find_one({"id": user_id})
+    user_lvl = user.get("level", 1) if user else 1
     out = []
     for g in SAMPLE_GROUPS:
         stored_chat = await db.group_chat.find(
@@ -254,7 +253,11 @@ async def list_groups(user_id: str = Depends(get_current_user_id)):
             {"from": c["from_name"], "text": c["text"], "time": c["time"]}
             for c in stored_chat
         ]
-        out.append({**g, "chat": chat})
+        out.append({
+            **g, "chat": chat,
+            "user_level": user_lvl,
+            "can_video": user_lvl >= g.get("min_level", 1),
+        })
     return out
 
 
@@ -270,7 +273,19 @@ async def get_group(group_id: str, user_id: str = Depends(get_current_user_id)):
         {"from": c["from_name"], "text": c["text"], "time": c["time"]}
         for c in stored_chat
     ]
-    return {**g, "chat": chat}
+    user = await db.users.find_one({"id": user_id})
+    user_lvl = user.get("level", 1) if user else 1
+    min_lvl = g.get("min_level", 1)
+    can_video = user_lvl >= min_lvl
+    return {
+        **g, "chat": chat,
+        "user_level": user_lvl,
+        "can_video": can_video,
+        "lockstep_message": (
+            None if can_video
+            else f"This squad is at Level {min_lvl}. You're at Level {user_lvl}. Level up together to unlock video chat."
+        ),
+    }
 
 
 @api.post("/groups/chat")
@@ -359,10 +374,9 @@ async def list_certificates(user_id: str = Depends(get_current_user_id)):
     # Level-based achievement certificates
     lvl = doc.get("level", 1)
     achievements = [
-        {"id": "cert_lvl5",  "title": "Social Unlocked",      "level_required": 5,  "desc": "Reached Level 5 — Connect unlocked"},
-        {"id": "cert_lvl10", "title": "Squad Builder",        "level_required": 10, "desc": "Reached Level 10 — Group lead status"},
-        {"id": "cert_lvl15", "title": "Voice AI Adept",       "level_required": 15, "desc": "Reached Level 15 — Voice AI & Meet unlocked"},
-        {"id": "cert_lvl20", "title": "SkillSync Architect",  "level_required": 20, "desc": "Reached Level 20 — Mentor track"},
+        {"id": "cert_lvl5",  "title": "Squad Unlocked",        "level_required": 5,  "desc": "Reached Level 5 — Connect + Create a Squad"},
+        {"id": "cert_lvl7",  "title": "Niche Owner",           "level_required": 7,  "desc": "Reached Level 7 — Specialist in your niche"},
+        {"id": "cert_lvl10", "title": "Multi-Group + Video",   "level_required": 10, "desc": "Reached Level 10 — Join multiple groups + Video chat"},
     ]
     for a in achievements:
         if lvl >= a["level_required"]:
@@ -378,9 +392,36 @@ async def list_certificates(user_id: str = Depends(get_current_user_id)):
 # ---------- Demo: set level (for presentations) ----------
 @api.post("/dev/set-level", response_model=UserPublic)
 async def set_level(body: SetLevelIn, user_id: str = Depends(get_current_user_id)):
-    lvl = max(1, min(25, body.level))
+    lvl = max(1, min(10, body.level))
     xp = (lvl - 1) * 200
-    await db.users.update_one({"id": user_id}, {"$set": {"level": lvl, "xp": xp}})
+    # Synthesize a demo streak and activity history that matches the level.
+    # Higher level = longer streak + more solved-history rows for charts.
+    today = date.today()
+    streak = min(45, lvl * 4 + 2)  # L1=6, L5=22, L10=42
+    # Clear previous demo activity for this user and re-seed
+    await db.activity.delete_many({"user_id": user_id, "demo": True})
+    solved_total = 0
+    for d in range(streak):
+        day = today - timedelta(days=d)
+        solves_that_day = 2 if d < 14 else 1
+        for s in range(solves_that_day):
+            p = PROBLEMS[(d + s) % len(PROBLEMS)]
+            await db.activity.insert_one({
+                "user_id": user_id, "date": day.isoformat(),
+                "problem_id": p["id"], "xp_earned": p["xp"],
+                "title": p["title"], "at": now_iso(), "demo": True,
+            })
+            solved_total += 1
+    completed_problem_ids = list({PROBLEMS[i % len(PROBLEMS)]["id"] for i in range(min(solved_total, len(PROBLEMS)))})
+    await db.users.update_one(
+        {"id": user_id},
+        {"$set": {
+            "level": lvl, "xp": xp,
+            "streak": streak,
+            "last_active": today.isoformat(),
+            "completed_problems": completed_problem_ids,
+        }},
+    )
     doc = await db.users.find_one({"id": user_id})
     return user_doc_to_public(doc)
 

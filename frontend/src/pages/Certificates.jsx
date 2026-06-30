@@ -30,14 +30,14 @@ export default function Certificates() {
   return (
     <div>
       <div className="mb-8">
-        <div className="text-xs mono uppercase tracking-[0.25em] text-[#FF6200] mb-2">Certificates</div>
+        <div className="text-xs mono uppercase tracking-[0.25em] text-[#FFFFFF] mb-2">Certificates</div>
         <h1 className="text-3xl lg:text-4xl font-semibold tracking-tight">Proof of the grind.</h1>
         <p className="text-[#CCCCCC] mt-2 text-sm">Earned by solving problems, completing group projects, and reaching level milestones.</p>
       </div>
 
       <div className="mb-10">
         <div className="flex items-center gap-2 mb-4">
-          <Award size={18} className="text-[#FF6200]" />
+          <Award size={18} className="text-[#FFFFFF]" />
           <div className="font-semibold">Earned ({data.earned.length})</div>
         </div>
         {data.earned.length === 0 ? (
@@ -80,11 +80,11 @@ export default function Certificates() {
 function CertificateCard({ cert, onDownload }) {
   return (
     <div data-cert data-testid={TID.certificateCard(cert.id)} className="surface-card surface-card-hover overflow-hidden">
-      <div className="relative p-6 bg-gradient-to-br from-[#FF6200]/15 via-[#1F1F1F] to-[#0A0A0A] border-b border-[#FF6200]/30">
+      <div className="relative p-6 bg-gradient-to-br from-[#FFFFFF]/15 via-[#1F1F1F] to-[#0A0A0A] border-b border-[#FFFFFF]/30">
         <div className="absolute top-3 right-3">
-          <Sparkles size={16} className="text-[#FF6200]" />
+          <Sparkles size={16} className="text-[#FFFFFF]" />
         </div>
-        <div className="text-[10px] mono uppercase tracking-[0.25em] text-[#FF6200] mb-1">SkillSync · Certificate</div>
+        <div className="text-[10px] mono uppercase tracking-[0.25em] text-[#FFFFFF] mb-1">SkillSync · Certificate</div>
         <div className="font-semibold text-lg">{cert.title}</div>
         <div className="text-xs text-[#CCCCCC] mt-1">Issued to <span className="text-white">{cert.issued_to}</span></div>
         <div className="text-xs text-[#888] mono mt-1">{cert.issued_on}</div>
@@ -105,7 +105,7 @@ function CertificateCard({ cert, onDownload }) {
         )}
         <div className="flex items-center justify-between">
           <div className="text-xs text-[#888]">
-            Participation <span className="text-[#FF6200] mono font-semibold">{cert.participation}%</span>
+            Participation <span className="text-[#FFFFFF] mono font-semibold">{cert.participation}%</span>
           </div>
           <button
             data-testid={TID.certificateDownloadBtn(cert.id)}
@@ -131,14 +131,14 @@ export function generateCertificatePdf(cert) {
   pdf.rect(0, 0, W, H, "F");
 
   // Orange border
-  pdf.setDrawColor(255, 98, 0);
+  pdf.setDrawColor(255, 255, 255);
   pdf.setLineWidth(6);
   pdf.rect(20, 20, W - 40, H - 40);
   pdf.setLineWidth(1);
   pdf.rect(34, 34, W - 68, H - 68);
 
   // Title
-  pdf.setTextColor(255, 98, 0);
+  pdf.setTextColor(255, 255, 255);
   pdf.setFont("helvetica", "bold");
   pdf.setFontSize(14);
   pdf.text("SKILLSYNC · CERTIFICATE", W / 2, 90, { align: "center" });
@@ -167,7 +167,7 @@ export function generateCertificatePdf(cert) {
 
   if (cert.skills?.length) {
     pdf.setFontSize(11);
-    pdf.setTextColor(255, 98, 0);
+    pdf.setTextColor(255, 255, 255);
     pdf.text(`Skills: ${cert.skills.join(" · ")}`, W / 2, 340, { align: "center" });
   }
 
@@ -182,7 +182,7 @@ export function generateCertificatePdf(cert) {
   pdf.text(`ID: ${cert.id}`, W - 60, H - 60, { align: "right" });
 
   // signature line
-  pdf.setDrawColor(255, 98, 0);
+  pdf.setDrawColor(255, 255, 255);
   pdf.setLineWidth(1.2);
   pdf.line(W / 2 - 90, H - 90, W / 2 + 90, H - 90);
   pdf.setFontSize(10);

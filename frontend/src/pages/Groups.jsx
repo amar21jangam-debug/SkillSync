@@ -22,7 +22,7 @@ export default function Groups() {
   return (
     <div>
       <div className="mb-8">
-        <div className="text-xs mono uppercase tracking-[0.25em] text-[#FF6200] mb-2">Group Discussion</div>
+        <div className="text-xs mono uppercase tracking-[0.25em] text-[#FFFFFF] mb-2">Group Discussion</div>
         <h1 className="text-3xl lg:text-4xl font-semibold tracking-tight">My Groups</h1>
         <p className="text-[#CCCCCC] mt-2 text-sm">Squads of 5. Real projects. Earn a certificate with your participation %.</p>
       </div>
@@ -38,11 +38,13 @@ export default function Groups() {
             <div className="flex items-start justify-between mb-3">
               <div>
                 <div className="font-semibold text-lg">{g.name}</div>
-                <div className="text-xs text-[#888] flex items-center gap-1 mt-1">
-                  <Users size={12} /> {g.members.length} / 5 members
+                <div className="text-xs text-[#888] flex items-center gap-2 mt-1 flex-wrap">
+                  <span className="flex items-center gap-1"><Users size={12} /> {g.members.length} / 5</span>
+                  <span className="glass-pill">L{g.min_level}</span>
+                  {g.niche && <span className="glass-pill">{g.niche}</span>}
                 </div>
               </div>
-              <div className="mono text-[#FF6200] font-bold text-xl">{g.progress}%</div>
+              <div className="mono text-white font-bold text-xl">{g.progress}%</div>
             </div>
 
             <div className="mb-4">

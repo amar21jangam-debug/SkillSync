@@ -209,11 +209,19 @@ SAMPLE_GROUPS = [
         "name": "Pixel Pioneers",
         "project": "Build a Real-time Code Collaboration Tool",
         "progress": 62,
+        "min_level": 5,  # group required level — all members must match or exceed
+        "niche": "Fullstack",
+        "roles": [
+            {"member_id": "u_a", "role": "Frontend (Monaco + UI)"},
+            {"member_id": "u_b", "role": "Backend (WebSocket + Auth)"},
+            {"member_id": "u_c", "role": "Realtime sync (CRDT)"},
+            {"member_id": "u_d", "role": "Design + Rooms UX"},
+        ],
         "members": [
-            {"id": "u_a", "name": "Aarav", "avatar": "https://i.pravatar.cc/100?img=12"},
-            {"id": "u_b", "name": "Sara", "avatar": "https://i.pravatar.cc/100?img=32"},
-            {"id": "u_c", "name": "Diego", "avatar": "https://i.pravatar.cc/100?img=47"},
-            {"id": "u_d", "name": "Mei", "avatar": "https://i.pravatar.cc/100?img=49"},
+            {"id": "u_a", "name": "Aarav", "avatar": "https://i.pravatar.cc/100?img=12", "level": 5},
+            {"id": "u_b", "name": "Sara", "avatar": "https://i.pravatar.cc/100?img=32", "level": 6},
+            {"id": "u_c", "name": "Diego", "avatar": "https://i.pravatar.cc/100?img=47", "level": 5},
+            {"id": "u_d", "name": "Mei", "avatar": "https://i.pravatar.cc/100?img=49", "level": 5},
         ],
         "tasks": [
             {"id": "t1", "title": "Set up WebSocket server", "done": True, "assigned": "Aarav"},
@@ -231,10 +239,17 @@ SAMPLE_GROUPS = [
         "name": "Neural Net Ninjas",
         "project": "Fine-tune an LLM for Code Review",
         "progress": 38,
+        "min_level": 7,
+        "niche": "AI/ML",
+        "roles": [
+            {"member_id": "u_e", "role": "Data curation"},
+            {"member_id": "u_f", "role": "Eval harness"},
+            {"member_id": "u_g", "role": "Model training (LoRA)"},
+        ],
         "members": [
-            {"id": "u_e", "name": "Hiro", "avatar": "https://i.pravatar.cc/100?img=15"},
-            {"id": "u_f", "name": "Zara", "avatar": "https://i.pravatar.cc/100?img=44"},
-            {"id": "u_g", "name": "Leo", "avatar": "https://i.pravatar.cc/100?img=51"},
+            {"id": "u_e", "name": "Hiro", "avatar": "https://i.pravatar.cc/100?img=15", "level": 7},
+            {"id": "u_f", "name": "Zara", "avatar": "https://i.pravatar.cc/100?img=44", "level": 7},
+            {"id": "u_g", "name": "Leo", "avatar": "https://i.pravatar.cc/100?img=51", "level": 8},
         ],
         "tasks": [
             {"id": "t1", "title": "Curate code-review dataset", "done": True, "assigned": "Hiro"},
@@ -250,12 +265,21 @@ SAMPLE_GROUPS = [
         "name": "Cloud Crusaders",
         "project": "Multi-region URL Shortener",
         "progress": 81,
+        "min_level": 10,
+        "niche": "Backend / DevOps",
+        "roles": [
+            {"member_id": "u_h", "role": "Edge routing"},
+            {"member_id": "u_i", "role": "Database schema"},
+            {"member_id": "u_j", "role": "Analytics dashboard"},
+            {"member_id": "u_k", "role": "Custom domain flow"},
+            {"member_id": "u_l", "role": "Frontend dashboard"},
+        ],
         "members": [
-            {"id": "u_h", "name": "Nia", "avatar": "https://i.pravatar.cc/100?img=20"},
-            {"id": "u_i", "name": "Kai", "avatar": "https://i.pravatar.cc/100?img=33"},
-            {"id": "u_j", "name": "Maya", "avatar": "https://i.pravatar.cc/100?img=45"},
-            {"id": "u_k", "name": "Theo", "avatar": "https://i.pravatar.cc/100?img=52"},
-            {"id": "u_l", "name": "Iris", "avatar": "https://i.pravatar.cc/100?img=48"},
+            {"id": "u_h", "name": "Nia", "avatar": "https://i.pravatar.cc/100?img=20", "level": 10},
+            {"id": "u_i", "name": "Kai", "avatar": "https://i.pravatar.cc/100?img=33", "level": 10},
+            {"id": "u_j", "name": "Maya", "avatar": "https://i.pravatar.cc/100?img=45", "level": 10},
+            {"id": "u_k", "name": "Theo", "avatar": "https://i.pravatar.cc/100?img=52", "level": 10},
+            {"id": "u_l", "name": "Iris", "avatar": "https://i.pravatar.cc/100?img=48", "level": 10},
         ],
         "tasks": [
             {"id": "t1", "title": "Edge worker routing", "done": True, "assigned": "Nia"},
@@ -306,5 +330,5 @@ CONNECT_USERS = [
 
 
 def level_for_xp(xp: int) -> int:
-    # 200 XP per level, capped at 25
-    return min(25, 1 + xp // 200)
+    # 200 XP per level, capped at 10 (beyond L10, projects just get harder)
+    return min(10, 1 + xp // 200)

@@ -42,9 +42,9 @@ export default function Dashboard() {
     <div ref={cardsRef}>
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
         <div>
-          <div className="text-xs mono uppercase tracking-[0.25em] text-[#FF6200] mb-2">Dashboard</div>
+          <div className="text-xs mono uppercase tracking-[0.25em] text-[#FFFFFF] mb-2">Dashboard</div>
           <h1 className="text-3xl lg:text-4xl font-semibold tracking-tight">
-            Welcome back, <span className="text-[#FF6200]">{user.name.split(" ")[0]}</span>.
+            Welcome back, <span className="text-[#FFFFFF]">{user.name.split(" ")[0]}</span>.
           </h1>
           <p className="text-[#CCCCCC] mt-1 text-sm">Here's what's cooking on your <span className="capitalize">{user.goal?.replace("_"," ")}</span> track.</p>
         </div>
@@ -55,7 +55,7 @@ export default function Dashboard() {
         <StatCard
           data-reveal icon={Flame} label="Streak" valueEl={
             <div className="flex items-baseline gap-1">
-              <span ref={streakRef} data-testid={TID.streakValue} className="mono text-3xl font-bold text-[#FF6200]">0</span>
+              <span ref={streakRef} data-testid={TID.streakValue} className="mono text-3xl font-bold text-[#FFFFFF]">0</span>
               <span className="text-[#CCCCCC] text-sm">days</span>
             </div>
           }
@@ -63,12 +63,12 @@ export default function Dashboard() {
         <div data-reveal className="surface-card p-5">
           <div className="text-xs mono uppercase tracking-widest text-[#888] mb-2">Level</div>
           <div className="flex items-center gap-3">
-            <div ref={levelRef} data-testid={TID.levelBadge} className="w-12 h-12 rounded-full bg-[#FF6200] text-black mono font-bold flex items-center justify-center pulse-glow">
+            <div ref={levelRef} data-testid={TID.levelBadge} className="w-12 h-12 rounded-full bg-[#FFFFFF] text-black mono font-bold flex items-center justify-center pulse-glow">
               {user.level}
             </div>
             <div>
-              <div className="text-sm font-medium">{user.level >= 15 ? "Voice AI unlocked" : user.level >= 5 ? "Connect unlocked" : "Keep climbing"}</div>
-              <div className="text-xs text-[#CCCCCC]">{200 - (user.xp % 200)} XP to next</div>
+              <div className="text-sm font-medium">{user.level >= 10 ? "Multi-Group + Video" : user.level >= 5 ? "Squad & Connect unlocked" : "Keep climbing"}</div>
+              <div className="text-xs text-[#CCCCCC]">{user.level >= 10 ? "L10 reached · harder projects next" : `${200 - (user.xp % 200)} XP to next`}</div>
             </div>
           </div>
         </div>
@@ -87,7 +87,7 @@ export default function Dashboard() {
               <div className="text-xs mono uppercase tracking-widest text-[#888]">Your Roadmap</div>
               <div className="font-semibold text-lg capitalize">{user.goal?.replace("_"," ")} Track</div>
             </div>
-            <Link to="/app/roadmap" className="text-sm text-[#FF6200] hover:underline">View full →</Link>
+            <Link to="/app/roadmap" className="text-sm text-[#FFFFFF] hover:underline">View full →</Link>
           </div>
           {roadmap ? (
             <>
@@ -102,7 +102,7 @@ export default function Dashboard() {
               <div className="space-y-2">
                 {roadmap.steps.slice(0, 4).map((s) => (
                   <div key={s.index} className="flex items-center gap-3 p-2.5 rounded-lg bg-[#141414]">
-                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold ${s.completed ? "bg-[#FF6200] text-black" : s.in_progress ? "bg-[#FF6200]/20 text-[#FF6200] border border-[#FF6200]" : "bg-[#2A2A2A] text-[#888]"}`}>
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold ${s.completed ? "bg-[#FFFFFF] text-black" : s.in_progress ? "bg-[#FFFFFF]/20 text-[#FFFFFF] border border-[#FFFFFF]" : "bg-[#2A2A2A] text-[#888]"}`}>
                       {s.completed ? <Check size={14}/> : s.index}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -118,14 +118,14 @@ export default function Dashboard() {
 
         <div data-reveal className="surface-card p-6">
           <div className="flex items-center gap-2 mb-4">
-            <Activity size={16} className="text-[#FF6200]" />
+            <Activity size={16} className="text-[#FFFFFF]" />
             <div className="font-semibold">Recent Activity</div>
           </div>
           {perf && perf.recent.length ? (
             <div className="space-y-3">
               {perf.recent.slice(0, 6).map((a, i) => (
                 <div key={i} className="flex items-start gap-3 text-sm">
-                  <div className="w-1.5 h-1.5 mt-2 rounded-full bg-[#FF6200]" />
+                  <div className="w-1.5 h-1.5 mt-2 rounded-full bg-[#FFFFFF]" />
                   <div className="flex-1">
                     <div className="text-white">{a.title}</div>
                     <div className="text-xs text-[#888] mono">+{a.xp_earned} XP · {a.date}</div>
@@ -144,7 +144,7 @@ function StatCard({ icon: Icon, label, valueEl, ...rest }) {
   return (
     <div {...rest} className="surface-card p-5">
       <div className="flex items-center gap-2 text-xs mono uppercase tracking-widest text-[#888] mb-2">
-        <Icon size={14} className="text-[#FF6200]" /> {label}
+        <Icon size={14} className="text-[#FFFFFF]" /> {label}
       </div>
       {valueEl}
     </div>

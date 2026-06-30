@@ -5,7 +5,7 @@ import { api } from "../lib/api";
 import { useAuth } from "../lib/auth";
 import { TID } from "../constants/testIds";
 
-const LEVELS = [1, 3, 5, 10, 15, 20, 25];
+const LEVELS = [1, 3, 5, 7, 10];
 
 export default function LevelSwitcher() {
   const { user, setUser } = useAuth();
@@ -47,10 +47,10 @@ export default function LevelSwitcher() {
       <button
         data-testid={TID.levelSwitcherBtn}
         onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg bg-[#141414] border border-[#FF6200]/30 hover:border-[#FF6200] hover:bg-[#1A1A1A] transition-all text-xs"
+        className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg bg-[#141414] border border-[#FFFFFF]/30 hover:border-[#FFFFFF] hover:bg-[#1A1A1A] transition-all text-xs"
         title="Demo: switch your level"
       >
-        <div className="flex items-center gap-2 text-[#FF6200]">
+        <div className="flex items-center gap-2 text-[#FFFFFF]">
           <Sparkles size={13} />
           <span className="mono uppercase tracking-widest">Demo Mode</span>
         </div>
@@ -60,32 +60,32 @@ export default function LevelSwitcher() {
       {open && (
         <div
           ref={menuRef}
-          className="absolute left-4 right-4 mt-2 z-50 bg-[#0A0A0A] border border-[#FF6200]/40 rounded-lg shadow-[0_0_28px_rgba(255,98,0,0.25)] overflow-hidden"
+          className="absolute left-4 right-4 mt-2 z-50 bg-[#0A0A0A] border border-[#FFFFFF]/40 rounded-lg shadow-[0_0_28px_rgba(255,255,255,0.25)] overflow-hidden"
         >
           <div className="px-3 py-2 text-[10px] mono uppercase tracking-widest text-[#888] border-b border-[#1F1F1F]">
             Jump to level
           </div>
           {LEVELS.map((lvl) => {
             const active = user.level === lvl;
-            const unlocks = lvl >= 15 ? "Voice AI" : lvl >= 10 ? "Squad Lead" : lvl >= 5 ? "Connect" : "Basics";
+            const unlocks = lvl >= 10 ? "Multi-Group + Video" : lvl >= 5 ? "Connect + Squad" : "Basics";
             return (
               <button
                 key={lvl}
                 data-testid={TID.levelOption(lvl)}
                 onClick={() => pick(lvl)}
                 disabled={busy}
-                className={`w-full flex items-center justify-between px-3 py-2 text-xs hover:bg-[#1F1F1F] transition-colors ${active ? "bg-[#FF6200]/15" : ""}`}
+                className={`w-full flex items-center justify-between px-3 py-2 text-xs hover:bg-[#1F1F1F] transition-colors ${active ? "bg-[#FFFFFF]/15" : ""}`}
               >
                 <div className="flex items-center gap-2">
-                  <span className={`mono font-bold ${active ? "text-[#FF6200]" : "text-white"}`}>L{lvl}</span>
+                  <span className={`mono font-bold ${active ? "text-[#FFFFFF]" : "text-white"}`}>L{lvl}</span>
                   <span className="text-[#888]">{unlocks}</span>
                 </div>
-                {active && <Check size={12} className="text-[#FF6200]" />}
+                {active && <Check size={12} className="text-[#FFFFFF]" />}
               </button>
             );
           })}
           <div className="px-3 py-2 text-[10px] text-[#666] border-t border-[#1F1F1F] flex items-center gap-1">
-            <Zap size={10} className="text-[#FF6200]" /> For demos & presentations
+            <Zap size={10} className="text-[#FFFFFF]" /> For demos & presentations
           </div>
         </div>
       )}

@@ -18,18 +18,18 @@ export default function Connect() {
     const lvl = data.current_level || user.level;
     return (
       <div className="flex flex-col items-center justify-center text-center py-20">
-        <div className="w-20 h-20 rounded-full bg-[#1F1F1F] border border-[#FF6200]/40 flex items-center justify-center mb-6">
-          <Lock size={28} className="text-[#FF6200]" />
+        <div className="w-20 h-20 rounded-full glass-strong flex items-center justify-center mb-6">
+          <Lock size={28} className="text-white" />
         </div>
-        <h1 className="text-2xl lg:text-3xl font-semibold tracking-tight mb-2">Connect unlocks at Level 5</h1>
+        <h1 className="text-2xl lg:text-3xl font-semibold tracking-tight mb-2">Connect & Squad unlocks at Level 5</h1>
         <p className="text-[#CCCCCC] max-w-md mb-6">
-          You're at Level {lvl}. Solve more problems to level up and unlock social profiles, connection requests, and AI matching.
+          You're at Level {lvl}. Solve more problems to level up — at L5 you can connect with peers, create a project group (max 5 members), and each member owns a niche (frontend / backend / design / etc).
         </p>
         <div className="w-full max-w-sm">
           <div className="flex justify-between text-xs text-[#CCCCCC] mb-1">
             <span>Progress to Level 5</span><span className="mono">{Math.min(100, Math.round((lvl / 5) * 100))}%</span>
           </div>
-          <div className="h-2 bg-[#2A2A2A] rounded-full overflow-hidden">
+          <div className="h-2 bg-white/10 rounded-full overflow-hidden">
             <div className="h-full progress-fill rounded-full" style={{ width: `${Math.min(100, Math.round((lvl / 5) * 100))}%` }} />
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function Connect() {
     <div>
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
         <div>
-          <div className="text-xs mono uppercase tracking-[0.25em] text-[#FF6200] mb-2">Connect</div>
+          <div className="text-xs mono uppercase tracking-[0.25em] text-[#FFFFFF] mb-2">Connect</div>
           <h1 className="text-3xl lg:text-4xl font-semibold tracking-tight">Your people, your pace.</h1>
         </div>
         <button data-testid={TID.aiMatchBtn} onClick={aiMatch} disabled={matching} className="btn-primary self-start md:self-auto">
@@ -66,10 +66,10 @@ export default function Connect() {
       </div>
 
       {match && (
-        <div className="surface-card border-[#FF6200]/40 p-6 mb-8 flex flex-col sm:flex-row items-start gap-4">
-          <img src={match.match.avatar} alt={match.match.name} className="w-16 h-16 rounded-full border-2 border-[#FF6200]" />
+        <div className="surface-card border-[#FFFFFF]/40 p-6 mb-8 flex flex-col sm:flex-row items-start gap-4">
+          <img src={match.match.avatar} alt={match.match.name} className="w-16 h-16 rounded-full border-2 border-[#FFFFFF]" />
           <div className="flex-1">
-            <div className="text-xs mono uppercase tracking-widest text-[#FF6200] mb-1">AI-matched for you</div>
+            <div className="text-xs mono uppercase tracking-widest text-[#FFFFFF] mb-1">AI-matched for you</div>
             <div className="font-semibold text-lg">{match.match.name}</div>
             <div className="text-sm text-[#CCCCCC]">{match.match.bio}</div>
             <div className="text-xs text-[#888] mt-2 italic">{match.reason}</div>
@@ -83,7 +83,7 @@ export default function Connect() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {data.users.map((u) => (
           <div key={u.id} data-testid={TID.connectCard(u.id)} className="surface-card surface-card-hover overflow-hidden">
-            <div className="h-20 bg-gradient-to-br from-[#FF6200]/30 to-[#1F1F1F]" />
+            <div className="h-20 bg-gradient-to-br from-[#FFFFFF]/30 to-[#1F1F1F]" />
             <div className="px-5 pb-5 -mt-10">
               <img src={u.avatar} alt={u.name} className="w-16 h-16 rounded-full border-4 border-[#0A0A0A]" />
               <div className="mt-3">

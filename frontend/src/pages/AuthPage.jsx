@@ -41,13 +41,13 @@ export default function AuthPage({ mode = "login" }) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-black px-4 py-10">
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 -left-20 w-96 h-96 rounded-full bg-[#FF6200]/10 blur-3xl" />
-        <div className="absolute bottom-1/4 -right-20 w-96 h-96 rounded-full bg-[#FF6200]/5 blur-3xl" />
+        <div className="absolute top-1/4 -left-20 w-96 h-96 rounded-full bg-[#FFFFFF]/10 blur-3xl" />
+        <div className="absolute bottom-1/4 -right-20 w-96 h-96 rounded-full bg-[#FFFFFF]/5 blur-3xl" />
       </div>
 
       <div ref={cardRef} className="relative w-full max-w-md surface-card p-8">
         <Link to="/" className="flex items-center gap-2 mb-8">
-          <div className="w-9 h-9 rounded-lg bg-[#FF6200] flex items-center justify-center glow-orange">
+          <div className="w-9 h-9 rounded-lg bg-[#FFFFFF] flex items-center justify-center glow-white">
             <Sparkles size={16} className="text-black" />
           </div>
           <div className="font-bold tracking-tight">SkillSync</div>
@@ -105,7 +105,7 @@ export default function AuthPage({ mode = "login" }) {
         <button
           data-testid={TID.authSwitchBtn}
           onClick={() => setIsRegister((v) => !v)}
-          className="mt-6 text-sm text-[#CCCCCC] hover:text-[#FF6200] w-full text-center"
+          className="mt-6 text-sm text-[#CCCCCC] hover:text-[#FFFFFF] w-full text-center"
         >
           {isRegister ? "Already have an account? Sign in" : "New here? Create an account"}
         </button>

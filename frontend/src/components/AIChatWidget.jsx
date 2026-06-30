@@ -111,14 +111,14 @@ export default function AIChatWidget({ initialOpen = false, contextHint = null }
     }
   };
 
-  const voiceUnlocked = (user?.level || 1) >= 15;
+  const voiceUnlocked = (user?.level || 1) >= 10;
 
   return (
     <>
       <button
         data-testid={TID.aiFloatBtn}
         onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-24 right-6 w-14 h-14 rounded-full bg-[#FF6200] flex items-center justify-center pulse-glow hover:scale-110 transition-transform z-[60]"
+        className="fixed bottom-24 right-6 w-14 h-14 rounded-full bg-[#FFFFFF] flex items-center justify-center pulse-glow hover:scale-110 transition-transform z-[60]"
         aria-label="Open AI chat"
       >
         {open ? <X size={22} className="text-black" /> : <Bot size={22} className="text-black" />}
@@ -127,11 +127,11 @@ export default function AIChatWidget({ initialOpen = false, contextHint = null }
       {open && (
         <div
           ref={panelRef}
-          className="fixed bottom-44 right-6 z-[60] w-[92vw] max-w-md h-[70vh] max-h-[640px] bg-[#0A0A0A] border border-[#FF6200]/40 rounded-2xl shadow-[0_0_40px_rgba(255,98,0,0.25)] flex flex-col overflow-hidden"
+          className="fixed bottom-44 right-6 z-[60] w-[92vw] max-w-md h-[70vh] max-h-[640px] bg-[#0A0A0A] border border-[#FFFFFF]/40 rounded-2xl shadow-[0_0_40px_rgba(255,255,255,0.25)] flex flex-col overflow-hidden"
         >
           <div className="px-4 py-3 border-b border-[#1F1F1F] flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-[#FF6200] flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-[#FFFFFF] flex items-center justify-center">
                 <Sparkles size={16} className="text-black" />
               </div>
               <div>
@@ -153,7 +153,7 @@ export default function AIChatWidget({ initialOpen = false, contextHint = null }
                   key={m.key}
                   data-testid={TID.aiModeBtn(m.key)}
                   onClick={() => setMode(m.key)}
-                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs transition-all ${active ? "bg-[#FF6200] text-black font-semibold" : "text-[#CCC] hover:text-white bg-[#1F1F1F]"}`}
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs transition-all ${active ? "bg-[#FFFFFF] text-black font-semibold" : "text-[#CCC] hover:text-white bg-[#1F1F1F]"}`}
                 >
                   <Icon size={13} /> {m.label}
                 </button>
@@ -164,9 +164,9 @@ export default function AIChatWidget({ initialOpen = false, contextHint = null }
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3">
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-[85%] rounded-xl px-3 py-2 text-sm whitespace-pre-wrap ${msg.role === "user" ? "bg-[#FF6200] text-black" : "bg-[#1F1F1F] text-white border border-[#2A2A2A]"}`}>
+                <div className={`max-w-[85%] rounded-xl px-3 py-2 text-sm whitespace-pre-wrap ${msg.role === "user" ? "bg-[#FFFFFF] text-black" : "bg-[#1F1F1F] text-white border border-[#2A2A2A]"}`}>
                   {msg.role === "assistant" && msg.agent && (
-                    <div className="text-[10px] mono uppercase tracking-wider text-[#FF6200] mb-1">{msg.agent}</div>
+                    <div className="text-[10px] mono uppercase tracking-wider text-[#FFFFFF] mb-1">{msg.agent}</div>
                   )}
                   {msg.text || (streaming && i === messages.length - 1 ? "▌" : "")}
                 </div>
@@ -185,9 +185,9 @@ export default function AIChatWidget({ initialOpen = false, contextHint = null }
               disabled={streaming}
             />
             <button
-              title={voiceUnlocked ? "Voice (coming soon)" : "Voice AI unlocks at Level 15"}
+              title={voiceUnlocked ? "Voice (coming soon)" : "Voice AI unlocks at Level 10"}
               disabled={!voiceUnlocked}
-              className={`p-2 rounded-md ${voiceUnlocked ? "text-[#FF6200] hover:bg-[#1F1F1F]" : "text-[#444]"}`}
+              className={`p-2 rounded-md ${voiceUnlocked ? "text-[#FFFFFF] hover:bg-[#1F1F1F]" : "text-[#444]"}`}
             >
               <Mic size={18} />
             </button>
