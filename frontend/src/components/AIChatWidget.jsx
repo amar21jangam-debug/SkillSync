@@ -127,7 +127,7 @@ export default function AIChatWidget({ initialOpen = false, contextHint = null }
       {open && (
         <div
           ref={panelRef}
-          className="fixed bottom-44 right-6 z-[60] w-[92vw] max-w-md h-[70vh] max-h-[640px] bg-[#0A0A0A] border border-[#7DD3FC]/40 rounded-2xl shadow-[0_0_40px_rgba(255,255,255,0.25)] flex flex-col overflow-hidden"
+          className="fixed bottom-44 right-6 z-[60] w-[92vw] max-w-md h-[70vh] max-h-[640px] bg-[#0A0A0A] border border-[#CBFF3D]/40 rounded-2xl shadow-[0_0_40px_rgba(255,255,255,0.25)] flex flex-col overflow-hidden"
         >
           <div className="px-4 py-3 border-b border-[#1F1F1F] flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -153,7 +153,7 @@ export default function AIChatWidget({ initialOpen = false, contextHint = null }
                   key={m.key}
                   data-testid={TID.aiModeBtn(m.key)}
                   onClick={() => setMode(m.key)}
-                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs transition-all ${active ? "bg-[#7DD3FC] text-black font-semibold" : "text-[#CCC] hover:text-white bg-[#1F1F1F]"}`}
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs transition-all ${active ? "bg-[#CBFF3D] text-black font-semibold" : "text-[#CCC] hover:text-white bg-[#1F1F1F]"}`}
                 >
                   <Icon size={13} /> {m.label}
                 </button>
@@ -164,9 +164,9 @@ export default function AIChatWidget({ initialOpen = false, contextHint = null }
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3">
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-[85%] rounded-xl px-3 py-2 text-sm whitespace-pre-wrap ${msg.role === "user" ? "bg-[#7DD3FC] text-black" : "bg-[#1F1F1F] text-white border border-[#2A2A2A]"}`}>
+                <div className={`max-w-[85%] rounded-xl px-3 py-2 text-sm whitespace-pre-wrap ${msg.role === "user" ? "bg-[#CBFF3D] text-black" : "bg-[#1F1F1F] text-white border border-[#2A2A2A]"}`}>
                   {msg.role === "assistant" && msg.agent && (
-                    <div className="text-[10px] mono uppercase tracking-wider text-[#7DD3FC] mb-1">{msg.agent}</div>
+                    <div className="text-[10px] mono uppercase tracking-wider text-[#CBFF3D] mb-1">{msg.agent}</div>
                   )}
                   {msg.text || (streaming && i === messages.length - 1 ? "▌" : "")}
                 </div>
@@ -187,7 +187,7 @@ export default function AIChatWidget({ initialOpen = false, contextHint = null }
             <button
               title={voiceUnlocked ? "Voice (coming soon)" : "Voice AI unlocks at Level 10"}
               disabled={!voiceUnlocked}
-              className={`p-2 rounded-md ${voiceUnlocked ? "text-[#7DD3FC] hover:bg-[#1F1F1F]" : "text-[#444]"}`}
+              className={`p-2 rounded-md ${voiceUnlocked ? "text-[#CBFF3D] hover:bg-[#1F1F1F]" : "text-[#444]"}`}
             >
               <Mic size={18} />
             </button>

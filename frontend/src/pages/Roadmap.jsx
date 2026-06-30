@@ -24,14 +24,14 @@ export default function Roadmap() {
   return (
     <div>
       <div className="mb-8">
-        <div className="text-xs mono uppercase tracking-[0.25em] text-[#7DD3FC] mb-2">My Roadmap</div>
+        <div className="text-xs mono uppercase tracking-[0.25em] text-[#CBFF3D] mb-2">My Roadmap</div>
         <h1 className="text-3xl lg:text-4xl font-semibold tracking-tight capitalize">{data.goal.replace("_", " ")} Track</h1>
         <p className="text-[#CCCCCC] mt-2 text-sm">A personalized step-by-step path. Solve problems to unlock progress.</p>
       </div>
 
       <div className="surface-card p-6 mb-8">
         <div className="flex justify-between text-xs text-[#CCCCCC] mb-2">
-          <span>Total progress</span><span className="mono text-[#7DD3FC] font-semibold">{data.progress}%</span>
+          <span>Total progress</span><span className="mono text-[#CBFF3D] font-semibold">{data.progress}%</span>
         </div>
         <div className="h-3 bg-[#2A2A2A] rounded-full overflow-hidden">
           <div className="h-full progress-fill rounded-full" style={{ width: `${data.progress}%` }} />
@@ -47,16 +47,16 @@ export default function Roadmap() {
             data-testid={TID.roadmapStep(s.index)}
             className="relative mb-6"
           >
-            <div className={`absolute -left-[34px] top-2 w-7 h-7 rounded-full flex items-center justify-center ${s.completed ? "bg-[#7DD3FC] text-black" : s.in_progress ? "bg-black border-2 border-[#FFFFFF] text-[#7DD3FC]" : "bg-[#2A2A2A] text-[#888]"}`}>
+            <div className={`absolute -left-[34px] top-2 w-7 h-7 rounded-full flex items-center justify-center ${s.completed ? "bg-[#CBFF3D] text-black" : s.in_progress ? "bg-black border-2 border-[#FFFFFF] text-[#CBFF3D]" : "bg-[#2A2A2A] text-[#888]"}`}>
               {s.completed ? <Check size={14} /> : s.in_progress ? <Clock size={13}/> : <Circle size={13} />}
             </div>
-            <div className={`surface-card p-5 transition-all ${s.in_progress ? "border-[#7DD3FC]/60 shadow-[0_0_20px_rgba(255,255,255,0.15)]" : ""}`}>
+            <div className={`surface-card p-5 transition-all ${s.in_progress ? "border-[#CBFF3D]/60 shadow-[0_0_20px_rgba(255,255,255,0.15)]" : ""}`}>
               <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
                 <div className="font-semibold text-lg">{s.index}. {s.title}</div>
                 <div className="flex items-center gap-2">
                   <span className="text-xs mono text-[#CCCCCC]">~{s.hours}h</span>
-                  {s.completed && <span className="text-[10px] mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-[#7DD3FC] text-black">Done</span>}
-                  {s.in_progress && <span className="text-[10px] mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-[#FFFFFF]/20 text-[#7DD3FC] border border-[#7DD3FC]/40">Active</span>}
+                  {s.completed && <span className="text-[10px] mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-[#CBFF3D] text-black">Done</span>}
+                  {s.in_progress && <span className="text-[10px] mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-[#FFFFFF]/20 text-[#CBFF3D] border border-[#CBFF3D]/40">Active</span>}
                 </div>
               </div>
               <div className="flex flex-wrap gap-2">

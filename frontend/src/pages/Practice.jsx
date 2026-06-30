@@ -35,7 +35,7 @@ export default function Practice() {
   return (
     <div>
       <div className="mb-8">
-        <div className="text-xs mono uppercase tracking-[0.25em] text-[#7DD3FC] mb-2">Practice Problems</div>
+        <div className="text-xs mono uppercase tracking-[0.25em] text-[#CBFF3D] mb-2">Practice Problems</div>
         <h1 className="text-3xl lg:text-4xl font-semibold tracking-tight">Sharpen the saw.</h1>
         <p className="text-[#CCCCCC] mt-2 text-sm">Pick a problem. Earn XP. Get stuck? Tap the AI assistant.</p>
       </div>
@@ -54,7 +54,7 @@ export default function Practice() {
             className="w-full grid grid-cols-12 items-center px-5 py-4 border-b border-[#1F1F1F] last:border-0 hover:bg-[#141414] transition-colors text-left"
           >
             <div className="col-span-6 flex items-center gap-3">
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center ${p.solved ? "bg-[#7DD3FC] text-black" : "border border-[#2A2A2A]"}`}>
+              <div className={`w-6 h-6 rounded-full flex items-center justify-center ${p.solved ? "bg-[#CBFF3D] text-black" : "border border-[#2A2A2A]"}`}>
                 {p.solved ? <Check size={13}/> : <span className="text-[10px] mono text-[#888]">{p.id.slice(1)}</span>}
               </div>
               <div className="font-medium">{p.title}</div>
@@ -63,7 +63,7 @@ export default function Practice() {
             <div className="col-span-2">
               <span className={`text-xs px-2 py-0.5 rounded-full border ${DIFFICULTY_STYLE[p.difficulty]}`}>{p.difficulty}</span>
             </div>
-            <div className="col-span-2 text-right flex items-center justify-end gap-1.5 mono text-[#7DD3FC]">
+            <div className="col-span-2 text-right flex items-center justify-end gap-1.5 mono text-[#CBFF3D]">
               <Zap size={13} /> {p.xp}
             </div>
           </button>
@@ -81,7 +81,7 @@ function ProblemDetail({ problem, onBack, onSolved }) {
 
   return (
     <div>
-      <button onClick={onBack} className="text-sm text-[#CCCCCC] hover:text-[#7DD3FC] mb-6 inline-flex items-center gap-1">
+      <button onClick={onBack} className="text-sm text-[#CCCCCC] hover:text-[#CBFF3D] mb-6 inline-flex items-center gap-1">
         <ArrowLeft size={14} /> Back to problems
       </button>
       <div className="grid lg:grid-cols-3 gap-6">
@@ -90,8 +90,8 @@ function ProblemDetail({ problem, onBack, onSolved }) {
             <div className="flex items-center gap-3 mb-4 flex-wrap">
               <span className={`text-xs px-2 py-0.5 rounded-full border ${DIFFICULTY_STYLE[problem.difficulty]}`}>{problem.difficulty}</span>
               <span className="text-xs px-2 py-0.5 rounded-full bg-[#2A2A2A] text-[#CCCCCC] mono">{problem.topic}</span>
-              <span className="text-xs mono text-[#7DD3FC] flex items-center gap-1"><Zap size={12}/> {problem.xp} XP</span>
-              {problem.solved && <span className="text-xs px-2 py-0.5 rounded-full bg-[#7DD3FC] text-black mono">Solved</span>}
+              <span className="text-xs mono text-[#CBFF3D] flex items-center gap-1"><Zap size={12}/> {problem.xp} XP</span>
+              {problem.solved && <span className="text-xs px-2 py-0.5 rounded-full bg-[#CBFF3D] text-black mono">Solved</span>}
             </div>
             <h1 className="text-2xl lg:text-3xl font-semibold mb-5">{problem.title}</h1>
             <div className="text-[#CCCCCC] leading-relaxed whitespace-pre-wrap mb-6">{problem.description}</div>
@@ -163,7 +163,7 @@ function ProblemDetail({ problem, onBack, onSolved }) {
 
         <div className="surface-card p-5 self-start">
           <div className="flex items-center gap-2 text-sm font-semibold mb-3">
-            <Youtube size={16} className="text-[#7DD3FC]" /> Suggested Video
+            <Youtube size={16} className="text-[#CBFF3D]" /> Suggested Video
           </div>
           <div className="aspect-video rounded-lg overflow-hidden border border-[#2A2A2A] bg-black">
             <iframe

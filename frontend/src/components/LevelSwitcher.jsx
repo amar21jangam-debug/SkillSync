@@ -47,10 +47,10 @@ export default function LevelSwitcher() {
       <button
         data-testid={TID.levelSwitcherBtn}
         onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg bg-[#141414] border border-[#7DD3FC]/30 hover:border-[#FFFFFF] hover:bg-[#1A1A1A] transition-all text-xs"
+        className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg bg-[#141414] border border-[#CBFF3D]/30 hover:border-[#FFFFFF] hover:bg-[#1A1A1A] transition-all text-xs"
         title="Demo: switch your level"
       >
-        <div className="flex items-center gap-2 text-[#7DD3FC]">
+        <div className="flex items-center gap-2 text-[#CBFF3D]">
           <Sparkles size={13} />
           <span className="mono uppercase tracking-widest">Demo Mode</span>
         </div>
@@ -60,7 +60,7 @@ export default function LevelSwitcher() {
       {open && (
         <div
           ref={menuRef}
-          className="absolute left-4 right-4 mt-2 z-50 bg-[#0A0A0A] border border-[#7DD3FC]/40 rounded-lg shadow-[0_0_28px_rgba(255,255,255,0.25)] overflow-hidden"
+          className="absolute left-4 right-4 mt-2 z-50 bg-[#0A0A0A] border border-[#CBFF3D]/40 rounded-lg shadow-[0_0_28px_rgba(255,255,255,0.25)] overflow-hidden"
         >
           <div className="px-3 py-2 text-[10px] mono uppercase tracking-widest text-[#888] border-b border-[#1F1F1F]">
             Jump to level
@@ -77,15 +77,15 @@ export default function LevelSwitcher() {
                 className={`w-full flex items-center justify-between px-3 py-2 text-xs hover:bg-[#1F1F1F] transition-colors ${active ? "bg-[#FFFFFF]/15" : ""}`}
               >
                 <div className="flex items-center gap-2">
-                  <span className={`mono font-bold ${active ? "text-[#7DD3FC]" : "text-white"}`}>L{lvl}</span>
+                  <span className={`mono font-bold ${active ? "text-[#CBFF3D]" : "text-white"}`}>L{lvl}</span>
                   <span className="text-[#888]">{unlocks}</span>
                 </div>
-                {active && <Check size={12} className="text-[#7DD3FC]" />}
+                {active && <Check size={12} className="text-[#CBFF3D]" />}
               </button>
             );
           })}
           <div className="px-3 py-2 text-[10px] text-[#666] border-t border-[#1F1F1F] flex items-center gap-1">
-            <Zap size={10} className="text-[#7DD3FC]" /> For demos & presentations
+            <Zap size={10} className="text-[#CBFF3D]" /> For demos & presentations
           </div>
         </div>
       )}

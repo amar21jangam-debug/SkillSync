@@ -22,7 +22,7 @@ export default function Groups() {
   return (
     <div>
       <div className="mb-8">
-        <div className="text-xs mono uppercase tracking-[0.25em] text-[#7DD3FC] mb-2">Group Discussion</div>
+        <div className="text-xs mono uppercase tracking-[0.25em] text-[#CBFF3D] mb-2">Group Discussion</div>
         <h1 className="text-3xl lg:text-4xl font-semibold tracking-tight">My Groups</h1>
         <p className="text-[#CCCCCC] mt-2 text-sm">Squads of 5. Real projects. Earn a certificate with your participation %.</p>
       </div>

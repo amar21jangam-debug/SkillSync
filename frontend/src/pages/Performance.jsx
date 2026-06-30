@@ -23,7 +23,7 @@ export default function Performance() {
   return (
     <div>
       <div className="mb-8">
-        <div className="text-xs mono uppercase tracking-[0.25em] text-[#7DD3FC] mb-2">My Performance</div>
+        <div className="text-xs mono uppercase tracking-[0.25em] text-[#CBFF3D] mb-2">My Performance</div>
         <h1 className="text-3xl lg:text-4xl font-semibold tracking-tight">Where the grind shows up.</h1>
       </div>
 
@@ -100,7 +100,7 @@ function Stat({ icon: Icon, label, value, unit }) {
   return (
     <div className="surface-card p-5">
       <div className="flex items-center gap-2 text-xs mono uppercase tracking-widest text-[#888] mb-2">
-        <Icon size={14} className="text-[#7DD3FC]" /> {label}
+        <Icon size={14} className="text-[#CBFF3D]" /> {label}
       </div>
       <div className="flex items-baseline gap-1">
         <span className="mono text-3xl font-bold text-white">{value}</span>

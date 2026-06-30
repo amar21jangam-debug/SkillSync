@@ -45,8 +45,8 @@ export default function HowItWorks() {
   return (
     <div ref={ref}>
       <div className="mb-10">
-        <div className="text-xs mono uppercase tracking-[0.25em] text-[#7DD3FC] mb-2">How It Works</div>
-        <h1 className="text-3xl lg:text-4xl font-semibold tracking-tight">From "I should learn this" to <span className="text-[#7DD3FC]">shipped projects</span>.</h1>
+        <div className="text-xs mono uppercase tracking-[0.25em] text-[#CBFF3D] mb-2">How It Works</div>
+        <h1 className="text-4xl lg:text-5xl tracking-tight">From "I should learn this" to <em className="text-[#CBFF3D] italic">shipped projects</em>.</h1>
         <p className="text-[#CCCCCC] mt-3 max-w-2xl">SkillSync combines personalized roadmaps, gamified levels, small project squads, and a multi-agent AI tutor — so you actually finish what you start.</p>
       </div>
 
@@ -55,12 +55,12 @@ export default function HowItWorks() {
           const Icon = s.icon;
           return (
             <div key={s.n} data-step className="surface-card p-6 flex gap-4">
-              <div className="shrink-0 w-12 h-12 rounded-xl bg-[#7DD3FC]/15 text-[#7DD3FC] border border-[#7DD3FC]/30 flex items-center justify-center">
+              <div className="shrink-0 w-12 h-12 rounded-xl bg-[#CBFF3D]/15 text-[#CBFF3D] border border-[#CBFF3D]/30 flex items-center justify-center">
                 <Icon size={22} />
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <div className="text-[10px] mono uppercase tracking-widest text-[#7DD3FC]">Step {s.n}</div>
+                  <div className="text-[10px] mono uppercase tracking-widest text-[#CBFF3D]">Step {s.n}</div>
                 </div>
                 <div className="font-semibold text-lg mb-1">{s.title}</div>
                 <div className="text-sm text-[#CCCCCC]">{s.desc}</div>
@@ -71,7 +71,7 @@ export default function HowItWorks() {
       </div>
 
       <div className="mb-12">
-        <div className="text-xs mono uppercase tracking-[0.25em] text-[#7DD3FC] mb-2">Levels & Unlocks</div>
+        <div className="text-xs mono uppercase tracking-[0.25em] text-[#CBFF3D] mb-2">Levels & Unlocks</div>
         <h2 className="text-2xl lg:text-3xl font-semibold tracking-tight mb-2">What you unlock as you level up</h2>
         <p className="text-[#CCCCCC] mb-6 max-w-2xl text-sm">Every level rewards consistency. Bigger levels open bigger toys — social, voice AI, group projects, and certificates.</p>
 
@@ -95,7 +95,7 @@ export default function HowItWorks() {
                     <div className="grid sm:grid-cols-2 gap-2">
                       {l.perks.map((p) => (
                         <div key={p} className="flex items-start gap-2 text-sm text-[#CCCCCC]">
-                          <Check size={14} className="text-[#7DD3FC] shrink-0 mt-0.5" /> {p}
+                          <Check size={14} className="text-[#CBFF3D] shrink-0 mt-0.5" /> {p}
                         </div>
                       ))}
                     </div>
@@ -108,22 +108,22 @@ export default function HowItWorks() {
       </div>
 
       <div className="surface-card p-8 text-center">
-        <div className="text-xs mono uppercase tracking-[0.25em] text-[#7DD3FC] mb-2">Multi-Agent AI</div>
+        <div className="text-xs mono uppercase tracking-[0.25em] text-[#CBFF3D] mb-2">Multi-Agent AI</div>
         <h2 className="text-2xl lg:text-3xl font-semibold tracking-tight mb-3">Three agents. One team.</h2>
         <p className="text-[#CCCCCC] max-w-2xl mx-auto mb-6">
           The Planning Agent designs strategy, the Educational Agent teaches concepts and gives hints, and the Group Support Agent coordinates squad work. Activate Agent Team mode to get a combined response.
         </p>
         <div className="grid sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
           <div className="p-4 rounded-xl bg-[#1F1F1F] border border-[#2A2A2A]">
-            <div className="font-semibold text-[#7DD3FC]">Planning</div>
+            <div className="font-semibold text-[#CBFF3D]">Planning</div>
             <div className="text-xs text-[#CCCCCC] mt-1">Milestones & weekly goals</div>
           </div>
           <div className="p-4 rounded-xl bg-[#1F1F1F] border border-[#2A2A2A]">
-            <div className="font-semibold text-[#7DD3FC]">Educational</div>
+            <div className="font-semibold text-[#CBFF3D]">Educational</div>
             <div className="text-xs text-[#CCCCCC] mt-1">Concepts, hints, examples</div>
           </div>
           <div className="p-4 rounded-xl bg-[#1F1F1F] border border-[#2A2A2A]">
-            <div className="font-semibold text-[#7DD3FC]">Group Support</div>
+            <div className="font-semibold text-[#CBFF3D]">Group Support</div>
             <div className="text-xs text-[#CCCCCC] mt-1">Owners, blockers, follow-ups</div>
           </div>
         </div>

@@ -46,7 +46,7 @@ export default function Sidebar({ open, onClose }) {
       >
         <div className="px-6 py-6 border-b border-[#1F1F1F]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-[#7DD3FC] flex items-center justify-center glow-white">
+            <div className="w-10 h-10 rounded-lg bg-[#CBFF3D] flex items-center justify-center glow-white">
               <Sparkles size={20} className="text-black" />
             </div>
             <div>
@@ -66,7 +66,7 @@ export default function Sidebar({ open, onClose }) {
               </div>
             </div>
             <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-1 text-[#7DD3FC]">
+              <div className="flex items-center gap-1 text-[#CBFF3D]">
                 <Flame size={14} /> <span className="mono">{user.streak}</span>
               </div>
               <div className="mono text-[#CCCCCC]">{user.xp} XP</div>
@@ -103,7 +103,7 @@ export default function Sidebar({ open, onClose }) {
         <button
           onClick={logout}
           data-testid={TID.sidebarLogout}
-          className="m-4 flex items-center gap-2 px-4 py-2 text-sm text-[#CCCCCC] hover:text-[#7DD3FC] border border-[#1F1F1F] rounded-lg hover:border-[#7DD3FC]/40 transition-all"
+          className="m-4 flex items-center gap-2 px-4 py-2 text-sm text-[#CCCCCC] hover:text-[#CBFF3D] border border-[#1F1F1F] rounded-lg hover:border-[#CBFF3D]/40 transition-all"
         >
           <LogOut size={16} /> Logout
         </button>

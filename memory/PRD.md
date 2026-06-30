@@ -43,7 +43,19 @@ Build a modern, premium, dark-themed web app called "SkillSync" for tech skill d
 - P2: Real WebSocket group chat
 - P2: Email verification + password reset
 
-## Iter 2 (Feb 2026) — Demo enhancements
+## Iter 4 (Feb 2026) — Theme reset: Obsidian + Electric Lime + Instrument Serif × Geist
+- User asked the design agent to pick its own palette/fonts after evaluating modern dev sites (Linear, Vercel, Cron, Cursor, Anthropic).
+- New palette: obsidian black `#0A0A0B` background, warm cream `#F2EDE4` text, **electric lime `#CBFF3D`** primary accent (energizing, signals growth — perfect thematic fit for a skill/levels platform).
+- Fonts: **Instrument Serif** for editorial-italic headlines (Welcome back, *Flex*. / Level up your *tech skills*. / *finish* what you start.), **Geist** for body UI, **Geist Mono** for code/labels.
+- Primary CTA = solid lime with black text (high-contrast, Apple-style). Secondary CTA = glass with cream border that turns lime on hover. Progress bars = lime gradient shimmer. Active sidebar rail = lime.
+- Smooth scrolling kept (`html { scroll-behavior: smooth }`). Glass surfaces unchanged.
+- Avatars regenerated with lime background + black initials via DiceBear.
+
+## Iter 3 (Feb 2026) — Apple liquid glass + level cap + lockstep
+- Level cap lowered to 10. Beyond L10, projects just get harder.
+- L5 unlocks Connect + Squad creation w/ niche roles. L10 unlocks multi-group + video chat.
+- Group LOCKSTEP: video unlocks only when user's level ≥ group's `min_level`. Otherwise the meet button shows "Video locked" with explanation.
+- Demo Mode `/api/dev/set-level` seeds streak + activity history for screenshots.
 - Added `POST /api/dev/set-level` and a sidebar "Demo Mode" level switcher (L1/3/5/10/15/20/25) so users can preview Connect, Voice AI, and Architect features during demos/presentations.
 - New `Certificates` page (sidebar #10) listing earned certs (DSA Starter, Group team certs, level milestone certs L5/L10/L15/L20) + locked previews. PDF download via jsPDF (landscape, branded). Group detail page also gets a direct "Download PDF" button when project is 100%.
 - Mentors: added booking flow. `POST /api/mentors/{id}/book` + `GET /api/mentors/bookings`. Dialog shows next 8 slots; confirmed bookings appear at the top of the Mentors page.
