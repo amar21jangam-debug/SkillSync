@@ -72,7 +72,7 @@ async def register(body: UserRegister):
         "email": body.email.lower(),
         "name": body.name,
         "password_hash": hash_password(body.password),
-        "avatar": f"https://api.dicebear.com/7.x/initials/svg?seed={body.name}&backgroundColor=ffffff&textColor=000000",
+        "avatar": f"https://api.dicebear.com/7.x/initials/svg?seed={body.name}&backgroundColor=7DD3FC&textColor=000000",
         "goal": None,
         "personality": [],
         "personality_text": "",

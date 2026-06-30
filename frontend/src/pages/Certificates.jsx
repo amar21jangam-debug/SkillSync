@@ -30,14 +30,14 @@ export default function Certificates() {
   return (
     <div>
       <div className="mb-8">
-        <div className="text-xs mono uppercase tracking-[0.25em] text-[#FFFFFF] mb-2">Certificates</div>
+        <div className="text-xs mono uppercase tracking-[0.25em] text-[#7DD3FC] mb-2">Certificates</div>
         <h1 className="text-3xl lg:text-4xl font-semibold tracking-tight">Proof of the grind.</h1>
         <p className="text-[#CCCCCC] mt-2 text-sm">Earned by solving problems, completing group projects, and reaching level milestones.</p>
       </div>
 
       <div className="mb-10">
         <div className="flex items-center gap-2 mb-4">
-          <Award size={18} className="text-[#FFFFFF]" />
+          <Award size={18} className="text-[#7DD3FC]" />
           <div className="font-semibold">Earned ({data.earned.length})</div>
         </div>
         {data.earned.length === 0 ? (
@@ -80,11 +80,11 @@ export default function Certificates() {
 function CertificateCard({ cert, onDownload }) {
   return (
     <div data-cert data-testid={TID.certificateCard(cert.id)} className="surface-card surface-card-hover overflow-hidden">
-      <div className="relative p-6 bg-gradient-to-br from-[#FFFFFF]/15 via-[#1F1F1F] to-[#0A0A0A] border-b border-[#FFFFFF]/30">
+      <div className="relative p-6 bg-gradient-to-br from-[#7DD3FC]/30 via-[#1F1F1F] to-[#0A0A0A] border-b border-[#7DD3FC]/30">
         <div className="absolute top-3 right-3">
-          <Sparkles size={16} className="text-[#FFFFFF]" />
+          <Sparkles size={16} className="text-[#7DD3FC]" />
         </div>
-        <div className="text-[10px] mono uppercase tracking-[0.25em] text-[#FFFFFF] mb-1">SkillSync · Certificate</div>
+        <div className="text-[10px] mono uppercase tracking-[0.25em] text-[#7DD3FC] mb-1">SkillSync · Certificate</div>
         <div className="font-semibold text-lg">{cert.title}</div>
         <div className="text-xs text-[#CCCCCC] mt-1">Issued to <span className="text-white">{cert.issued_to}</span></div>
         <div className="text-xs text-[#888] mono mt-1">{cert.issued_on}</div>
@@ -105,7 +105,7 @@ function CertificateCard({ cert, onDownload }) {
         )}
         <div className="flex items-center justify-between">
           <div className="text-xs text-[#888]">
-            Participation <span className="text-[#FFFFFF] mono font-semibold">{cert.participation}%</span>
+            Participation <span className="text-[#7DD3FC] mono font-semibold">{cert.participation}%</span>
           </div>
           <button
             data-testid={TID.certificateDownloadBtn(cert.id)}

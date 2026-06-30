@@ -47,7 +47,7 @@ export default function AuthPage({ mode = "login" }) {
 
       <div ref={cardRef} className="relative w-full max-w-md surface-card p-8">
         <Link to="/" className="flex items-center gap-2 mb-8">
-          <div className="w-9 h-9 rounded-lg bg-[#FFFFFF] flex items-center justify-center glow-white">
+          <div className="w-9 h-9 rounded-lg bg-[#7DD3FC] flex items-center justify-center glow-white">
             <Sparkles size={16} className="text-black" />
           </div>
           <div className="font-bold tracking-tight">SkillSync</div>
@@ -105,7 +105,7 @@ export default function AuthPage({ mode = "login" }) {
         <button
           data-testid={TID.authSwitchBtn}
           onClick={() => setIsRegister((v) => !v)}
-          className="mt-6 text-sm text-[#CCCCCC] hover:text-[#FFFFFF] w-full text-center"
+          className="mt-6 text-sm text-[#CCCCCC] hover:text-[#7DD3FC] w-full text-center"
         >
           {isRegister ? "Already have an account? Sign in" : "New here? Create an account"}
         </button>

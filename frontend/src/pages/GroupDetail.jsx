@@ -40,7 +40,7 @@ export default function GroupDetail() {
 
   return (
     <div>
-      <button onClick={() => navigate("/app/groups")} className="text-sm text-[#CCCCCC] hover:text-[#FFFFFF] mb-6 inline-flex items-center gap-1">
+      <button onClick={() => navigate("/app/groups")} className="text-sm text-[#CCCCCC] hover:text-[#7DD3FC] mb-6 inline-flex items-center gap-1">
         <ArrowLeft size={14} /> Back to groups
       </button>
 
@@ -99,8 +99,8 @@ export default function GroupDetail() {
             </div>
             <div className="space-y-2">
               {g.tasks.map((t) => (
-                <div key={t.id} className={`flex items-center gap-3 p-3 rounded-lg ${t.done ? "bg-[#FFFFFF]/10 border border-[#FFFFFF]/30" : "bg-[#141414]"}`}>
-                  {t.done ? <Check size={16} className="text-[#FFFFFF]" /> : <Circle size={16} className="text-[#888]" />}
+                <div key={t.id} className={`flex items-center gap-3 p-3 rounded-lg ${t.done ? "bg-[#FFFFFF]/10 border border-[#7DD3FC]/30" : "bg-[#141414]"}`}>
+                  {t.done ? <Check size={16} className="text-[#7DD3FC]" /> : <Circle size={16} className="text-[#888]" />}
                   <div className="flex-1">
                     <div className={`text-sm ${t.done ? "line-through text-[#888]" : "text-white"}`}>{t.title}</div>
                     <div className="text-xs text-[#888]">Owner: {t.assigned}</div>
@@ -115,7 +115,7 @@ export default function GroupDetail() {
               <div className="font-semibold">Group Chat</div>
               <button
                 onClick={() => setShowAI((v) => !v)}
-                className="text-xs flex items-center gap-1 text-[#FFFFFF] hover:underline"
+                className="text-xs flex items-center gap-1 text-[#7DD3FC] hover:underline"
               >
                 <Bot size={14}/> {showAI ? "Hide AI" : "Open AI assistant"}
               </button>
@@ -123,7 +123,7 @@ export default function GroupDetail() {
             <div ref={chatRef} className="space-y-3 max-h-72 overflow-y-auto pr-2 mb-4">
               {g.chat.map((m, i) => (
                 <div key={i} className="flex gap-3">
-                  <div className="w-7 h-7 rounded-full bg-[#FFFFFF]/20 text-[#FFFFFF] flex items-center justify-center text-xs mono">
+                  <div className="w-7 h-7 rounded-full bg-[#FFFFFF]/20 text-[#7DD3FC] flex items-center justify-center text-xs mono">
                     {m.from.charAt(0)}
                   </div>
                   <div>
@@ -151,7 +151,7 @@ export default function GroupDetail() {
         <div className="space-y-6">
           <div className="surface-card p-6">
             <div className="flex items-center gap-2 mb-4">
-              <Users size={16} className="text-[#FFFFFF]" /> <div className="font-semibold">Members</div>
+              <Users size={16} className="text-[#7DD3FC]" /> <div className="font-semibold">Members</div>
             </div>
             <div className="space-y-3">
               {g.members.map((m) => (
@@ -163,15 +163,15 @@ export default function GroupDetail() {
             </div>
           </div>
 
-          <div className={`surface-card p-6 ${certificateReady ? "border-[#FFFFFF]/60 shadow-[0_0_20px_rgba(255,255,255,0.2)]" : ""}`}>
+          <div className={`surface-card p-6 ${certificateReady ? "border-[#7DD3FC]/60 shadow-[0_0_20px_rgba(255,255,255,0.2)]" : ""}`}>
             <div className="flex items-center gap-2 mb-3">
-              <Award size={16} className="text-[#FFFFFF]" /> <div className="font-semibold">Certificate</div>
+              <Award size={16} className="text-[#7DD3FC]" /> <div className="font-semibold">Certificate</div>
             </div>
             {certificateReady ? (
               <>
                 <div className="text-sm text-[#CCCCCC] mb-3">All tasks done — your certificate is ready.</div>
-                <div className="bg-[#0A0A0A] border border-[#FFFFFF]/40 rounded-xl p-5 text-center mb-3">
-                  <div className="text-xs mono uppercase tracking-widest text-[#FFFFFF] mb-1">SkillSync · Certificate</div>
+                <div className="bg-[#0A0A0A] border border-[#7DD3FC]/40 rounded-xl p-5 text-center mb-3">
+                  <div className="text-xs mono uppercase tracking-widest text-[#7DD3FC] mb-1">SkillSync · Certificate</div>
                   <div className="font-semibold text-lg">{user?.name}</div>
                   <div className="text-xs text-[#CCCCCC] mt-1">Participation: 100%</div>
                   <div className="text-xs text-[#CCCCCC]">Project: {g.project}</div>
@@ -198,7 +198,7 @@ export default function GroupDetail() {
 
           <div className="surface-card p-6">
             <div className="flex items-center gap-2 mb-3">
-              <Sparkles size={16} className="text-[#FFFFFF]" /> <div className="font-semibold">AI Coordination</div>
+              <Sparkles size={16} className="text-[#7DD3FC]" /> <div className="font-semibold">AI Coordination</div>
             </div>
             <div className="text-sm text-[#CCCCCC] mb-4">
               Use the Agent Team mode in the chat for help breaking down tasks, unblocking members, and planning.

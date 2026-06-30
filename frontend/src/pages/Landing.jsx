@@ -34,7 +34,7 @@ export default function Landing() {
       <nav className="sticky top-0 z-30 backdrop-blur-xl bg-black/60 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-[#FFFFFF] flex items-center justify-center glow-white">
+            <div className="w-8 h-8 rounded-lg bg-[#7DD3FC] flex items-center justify-center glow-white">
               <Sparkles size={16} className="text-black" />
             </div>
             <div className="font-bold tracking-tight">SkillSync</div>
@@ -63,11 +63,11 @@ export default function Landing() {
         <div className="grain" />
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7">
-            <div className="hero-line inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1F1F1F] border border-[#FFFFFF]/30 text-xs mono uppercase tracking-[0.2em] text-[#FFFFFF] mb-6">
+            <div className="hero-line inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1F1F1F] border border-[#7DD3FC]/30 text-xs mono uppercase tracking-[0.2em] text-[#7DD3FC] mb-6">
               <Flame size={12} /> Cyber Lab for Devs
             </div>
             <h1 className="hero-line text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] mb-6">
-              Level up your <span className="text-[#FFFFFF] text-glow">tech skills</span>,
+              Level up your <span className="text-[#7DD3FC] text-glow">tech skills</span>,
               <br /> one streak at a time.
             </h1>
             <p className="hero-line text-base sm:text-lg text-[#CCCCCC] leading-relaxed max-w-xl mb-8">
@@ -121,7 +121,7 @@ export default function Landing() {
                 ))}
               </div>
               <div className="mt-5 pt-5 border-t border-[#2A2A2A] flex items-center justify-between text-xs">
-                <div className="flex items-center gap-1.5 text-[#FFFFFF]"><Flame size={14} /> 18 day streak</div>
+                <div className="flex items-center gap-1.5 text-[#7DD3FC]"><Flame size={14} /> 18 day streak</div>
                 <div className="mono text-[#CCCCCC]">2,480 XP</div>
               </div>
             </div>
@@ -132,9 +132,9 @@ export default function Landing() {
       {/* Features */}
       <section className="max-w-7xl mx-auto px-6 pb-24">
         <div className="mb-12">
-          <div className="text-xs mono uppercase tracking-[0.25em] text-[#FFFFFF] mb-3">Features</div>
+          <div className="text-xs mono uppercase tracking-[0.25em] text-[#7DD3FC] mb-3">Features</div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight">
-            Everything you need to actually <span className="text-[#FFFFFF]">finish</span> what you start.
+            Everything you need to actually <span className="text-[#7DD3FC]">finish</span> what you start.
           </h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -142,7 +142,7 @@ export default function Landing() {
             const Icon = f.icon;
             return (
               <div key={f.title} className="feature-card surface-card surface-card-hover p-6">
-                <div className="w-10 h-10 rounded-lg bg-[#FFFFFF]/15 text-[#FFFFFF] flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded-lg bg-[#7DD3FC]/15 text-[#7DD3FC] flex items-center justify-center mb-4">
                   <Icon size={20} />
                 </div>
                 <div className="font-semibold mb-2">{f.title}</div>

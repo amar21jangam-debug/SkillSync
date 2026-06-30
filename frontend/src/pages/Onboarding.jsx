@@ -60,7 +60,7 @@ export default function Onboarding() {
       </div>
       <div className="relative w-full max-w-2xl">
         <div className="flex items-center gap-2 mb-8">
-          <div className="w-8 h-8 rounded-lg bg-[#FFFFFF] flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-[#7DD3FC] flex items-center justify-center">
             <Sparkles size={14} className="text-black" />
           </div>
           <div className="font-bold tracking-tight">SkillSync · Onboarding</div>
@@ -86,10 +86,10 @@ export default function Onboarding() {
                       key={g.key}
                       data-testid={TID.onbGoalCard(g.key)}
                       onClick={() => setGoal(g.key)}
-                      className={`text-left p-4 rounded-xl border transition-all ${active ? "border-[#FFFFFF] bg-[#FFFFFF]/10 shadow-[0_0_18px_rgba(255,255,255,0.25)]" : "border-[#2A2A2A] bg-[#1F1F1F] hover:border-[#FFFFFF]/40"}`}
+                      className={`text-left p-4 rounded-xl border transition-all ${active ? "border-[#FFFFFF] bg-[#FFFFFF]/10 shadow-[0_0_18px_rgba(255,255,255,0.25)]" : "border-[#2A2A2A] bg-[#1F1F1F] hover:border-[#7DD3FC]/40"}`}
                     >
                       <div className="flex items-center gap-3 mb-2">
-                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${active ? "bg-[#FFFFFF] text-black" : "bg-[#2A2A2A] text-[#FFFFFF]"}`}>
+                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${active ? "bg-[#7DD3FC] text-black" : "bg-[#2A2A2A] text-[#7DD3FC]"}`}>
                           <Icon size={18} />
                         </div>
                         <div className="font-semibold">{g.label}</div>
@@ -114,7 +114,7 @@ export default function Onboarding() {
                       key={p}
                       data-testid={TID.onbPersonalityChip(p.toLowerCase().replace(/\W/g, "-"))}
                       onClick={() => toggle(personality, setPersonality, p)}
-                      className={`px-3 py-1.5 rounded-full text-sm border transition-all ${active ? "bg-[#FFFFFF] text-black border-[#FFFFFF]" : "bg-[#1F1F1F] border-[#2A2A2A] hover:border-[#FFFFFF]/50"}`}
+                      className={`px-3 py-1.5 rounded-full text-sm border transition-all ${active ? "bg-[#7DD3FC] text-black border-[#FFFFFF]" : "bg-[#1F1F1F] border-[#2A2A2A] hover:border-[#7DD3FC]/50"}`}
                     >
                       {active && <Check size={12} className="inline mr-1" />}
                       {p}
@@ -143,7 +143,7 @@ export default function Onboarding() {
                       key={c}
                       data-testid={TID.onbConnectChip(c.toLowerCase().replace(/\W/g, "-"))}
                       onClick={() => toggle(connectWith, setConnectWith, c)}
-                      className={`px-3 py-1.5 rounded-full text-sm border transition-all ${active ? "bg-[#FFFFFF] text-black border-[#FFFFFF]" : "bg-[#1F1F1F] border-[#2A2A2A] hover:border-[#FFFFFF]/50"}`}
+                      className={`px-3 py-1.5 rounded-full text-sm border transition-all ${active ? "bg-[#7DD3FC] text-black border-[#FFFFFF]" : "bg-[#1F1F1F] border-[#2A2A2A] hover:border-[#7DD3FC]/50"}`}
                     >
                       {active && <Check size={12} className="inline mr-1" />}
                       {c}
@@ -164,8 +164,8 @@ export default function Onboarding() {
             <>
               <h2 className="text-2xl font-semibold mb-2">All set, {user.name.split(" ")[0]}.</h2>
               <p className="text-sm text-[#CCCCCC] mb-6">We'll generate your personalized {goal?.toUpperCase()} roadmap now.</p>
-              <div className="surface-card p-5 border-[#FFFFFF]/30">
-                <div className="text-xs mono uppercase tracking-widest text-[#FFFFFF] mb-2">Track</div>
+              <div className="surface-card p-5 border-[#7DD3FC]/30">
+                <div className="text-xs mono uppercase tracking-widest text-[#7DD3FC] mb-2">Track</div>
                 <div className="text-lg font-semibold mb-3 capitalize">{goal?.replace("_", " ")}</div>
                 <div className="text-sm text-[#CCCCCC] mb-3">
                   Personality: <span className="text-white">{personality.join(", ") || "—"}</span>

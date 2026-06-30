@@ -1,0 +1,57 @@
+{
+  "summary": "Iteration-4 frontend visual + regression review of SkillSync at https://skillsync-build.preview.emergentagent.com. Verified the new black + white + light blue (#7DD3FC) theme, Arial Narrow body + Georgia headings, smooth scroll, and full iter-3 functional regression (demo mode L1-L10, lockstep video gating, certificates, AI chat panel, sidebar styling). 100% theme + regression pass. ZERO #FF6200 orange anywhere on Landing scan. Backend was explicitly skipped per main agent instruction.",
+  "backend_issues": { "critical": [], "minor": [] },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "AIChatWidget floating button", "issue": "Inline className is bg-[#FFFFFF] (computed backgroundColor rgb(255,255,255) = pure white), but the review request specified 'ai-float-btn (now glass-blue)'. Visually it reads as light blue because of the .pulse-glow shadow ring (rgba(125,211,252,0.45)), and clicking it does open the AI chat panel correctly. This is a minor cosmetic deviation only — the button is white, not glass-blue. Recommend changing to bg-[#7DD3FC] or .glass + light-blue tint to match the spec.", "selector": "[data-testid=\"ai-float-btn\"]", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/backend/tests/test_iteration3.py"
+  ],
+  "action_items": [
+    "Optional: change [data-testid=\"ai-float-btn\"] bg from bg-[#FFFFFF] → bg-[#7DD3FC] (or a glass-blue surface like rgba(125,211,252,0.15) with #7DD3FC border) to match the 'glass-blue' spec in iter-4. Functionality is unaffected."
+  ],
+  "critical_code_review_comments": [
+    "index.css cleanly defines the new theme (--accent #7DD3FC, --accent-strong #38BDF8, --accent-soft, --accent-glow) and applies html { scroll-behavior: smooth } — verified at runtime (computed scroll-behavior === 'smooth', scrollY animates across multiple frames).",
+    "Font stack is correct: body resolves to 'Arial Narrow, Helvetica Neue Condensed, Liberation Sans Narrow, Georgia, serif'; h1 resolves to 'Georgia, Times New Roman, serif'. Verified via getComputedStyle.",
+    ".btn-primary uses rgba(125,211,252,0.55) border + rgba(125,211,252,0.10) fill — confirmed on Landing 'Start your roadmap' button.",
+    ".progress-fill is light-blue shimmer gradient — visible on Dashboard 'Backend Track' progress bar.",
+    ".sidebar-item-active has light-blue (rgb(125,211,252)) left border + #BAE6FD text — confirmed on Dashboard sidebar.",
+    "Sidebar brand-logo container is bg-[#7DD3FC] glow-white — confirmed (rgb(125,211,252)).",
+    "User avatar (FT) renders in light-blue circle with black initials in the screenshot — confirmed.",
+    "HowItWorks page has NO 'L15' or 'Level 15' anywhere; contains L10 multi-group + Video copy and squad copy per iter-4 spec."
+  ],
+  "updated_files": [],
+  "success_rate": { "backend": "skipped (per request)", "frontend": "~98% (theme + all regressions pass; only minor: AI float button bg is #FFFFFF instead of glass-blue)" },
+  "test_credentials": "flex@test.io / flex1234 (existing onboarded user, level switchable via Demo Mode dropdown to L1/L3/L5/L7/L10).",
+  "seed_data_creation": "None. Used flex@test.io account directly.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Demo Mode is a dropdown — click [data-testid=\"level-switcher-btn\"] to expand, then click [data-testid=\"level-option-{n}\"] for n in {1,3,5,7,10}. Login form testids: [data-testid=\"auth-email-input\"], [data-testid=\"auth-password-input\"], and submit via clicking 'Sign in' text. AI float button [data-testid=\"ai-float-btn\"] opens panel correctly (panel shows Educational/Planning/Group/Agent Team mode tabs). Dashboard testids: stat-streak, stat-level, stat-xp; sidebar-{dashboard,roadmap,practice,performance,contests,groups,mentors,connect,certificates,how,logout-btn}. Visited and verified theme on Landing(/), Dashboard(/app), Performance(/app/performance), Group g3 detail(/app/groups/g3 — both L7 locked + L10 unlocked states), Certificates(/app/certificates with all 4 earned cards including 'Multi-Group + Video' L10 cert and 4 clickable PDF buttons), How It Works(/app/how-it-works — no L15 text).",
+  "iteration_4_verification_matrix": {
+    "body_bg_black": "PASS (rgb(0,0,0))",
+    "h1_tech_skills_light_blue": "PASS (span class text-[#7DD3FC] text-glow on 'tech skills')",
+    "primary_btn_light_blue_border": "PASS (borderColor rgba(125,211,252,0.55))",
+    "progress_bar_light_blue": "PASS (visible on Dashboard 'Backend Track')",
+    "body_font_arial_narrow_stack": "PASS ('Arial Narrow', 'Helvetica Neue Condensed', 'Liberation Sans Narrow', Georgia, serif)",
+    "h1_georgia": "PASS (Georgia, 'Times New Roman', serif)",
+    "scroll_behavior_smooth": "PASS (computed === 'smooth' AND scrollY animates over 7+ unique frames during scrollTo({top:800, behavior:smooth}))",
+    "zero_orange_FF6200_on_landing": "PASS (orange_hits_count=0)",
+    "flex_login_works": "PASS",
+    "demo_L7_streak_30_chart_calendar": "PASS (streak 30 days, 14-day bar chart populated, calendar lit cells visible)",
+    "g3_L7_video_locked_lockstep_banner": "PASS ('Video locked' button + 'This squad is at Level 10. You\\u2019re at Level 7. Level up together to unlock video chat.' banner)",
+    "g3_L10_start_group_video_btn": "PASS ('Start Group Video' button visible)",
+    "certificates_L10_multi_group_card": "PASS ('Multi-Group + Video' card with 'Reached Level 10 — Join multiple groups + Video chat')",
+    "pdf_buttons_clickable": "PASS (4 PDF buttons found and clickable)",
+    "ai_float_btn_opens_panel": "PASS (panel opens with Educational/Planning/Group/Agent Team modes + agent label visible)",
+    "ai_float_btn_is_glass_blue": "MINOR FAIL — bg is rgb(255,255,255) per class bg-[#FFFFFF]; visually appears light blue only because of pulse-glow shadow",
+    "sidebar_brand_logo_light_blue": "PASS (rgb(125,211,252))",
+    "sidebar_active_item_light_blue_border_text": "PASS (borderLeftColor rgb(125,211,252), color rgb(186,230,253))",
+    "how_it_works_no_L15": "PASS (no 'L15' or 'Level 15' text; new L10 + squad copy present)"
+  },
+  "rca of the issue": "AI float button styling RCA: the AIChatWidget JSX uses className 'bg-[#FFFFFF]' (white background) directly on the floating button. The .pulse-glow keyframe (defined in index.css as pulse-blue) adds a light-blue box-shadow halo around it, which is why the button reads visually as light blue in screenshots, but the actual fill is white. To match the iter-4 'glass-blue' spec, change the class to bg-[#7DD3FC] (solid) or to .glass + a light-blue tinted overlay. No functional impact — the button is clickable, opens the chat panel, and the panel shows agent modes correctly."
+}

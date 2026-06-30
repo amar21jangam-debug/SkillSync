@@ -12,7 +12,7 @@ export default function Layout() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-[#FFFFFF]">
+      <div className="min-h-screen flex items-center justify-center text-[#7DD3FC]">
         <div className="animate-pulse mono">Loading SkillSync...</div>
       </div>
     );
