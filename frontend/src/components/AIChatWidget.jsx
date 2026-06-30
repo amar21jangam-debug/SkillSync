@@ -118,7 +118,7 @@ export default function AIChatWidget({ initialOpen = false, contextHint = null }
       <button
         data-testid={TID.aiFloatBtn}
         onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-[#FF6200] flex items-center justify-center pulse-glow hover:scale-110 transition-transform z-50"
+        className="fixed bottom-24 right-6 w-14 h-14 rounded-full bg-[#FF6200] flex items-center justify-center pulse-glow hover:scale-110 transition-transform z-[60]"
         aria-label="Open AI chat"
       >
         {open ? <X size={22} className="text-black" /> : <Bot size={22} className="text-black" />}
@@ -127,7 +127,7 @@ export default function AIChatWidget({ initialOpen = false, contextHint = null }
       {open && (
         <div
           ref={panelRef}
-          className="fixed bottom-24 right-6 z-50 w-[92vw] max-w-md h-[70vh] max-h-[640px] bg-[#0A0A0A] border border-[#FF6200]/40 rounded-2xl shadow-[0_0_40px_rgba(255,98,0,0.25)] flex flex-col overflow-hidden"
+          className="fixed bottom-44 right-6 z-[60] w-[92vw] max-w-md h-[70vh] max-h-[640px] bg-[#0A0A0A] border border-[#FF6200]/40 rounded-2xl shadow-[0_0_40px_rgba(255,98,0,0.25)] flex flex-col overflow-hidden"
         >
           <div className="px-4 py-3 border-b border-[#1F1F1F] flex items-center justify-between">
             <div className="flex items-center gap-2">
