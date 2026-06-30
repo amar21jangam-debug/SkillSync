@@ -94,3 +94,7 @@ class BookMentorIn(BaseModel):
     mentor_id: str
     slot: str  # ISO datetime string
     note: Optional[str] = ""
+
+
+class MessageIn(BaseModel):
+    text: str

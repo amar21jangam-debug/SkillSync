@@ -17,7 +17,7 @@ load_dotenv(ROOT_DIR / ".env")
 from models import (
     UserRegister, UserLogin, UserPublic, TokenResponse, OnboardingData,
     ChatMessageIn, SolveProblemIn, ConnectRequestIn, GroupChatIn,
-    SetLevelIn, BookMentorIn, now_iso, new_id,
+    SetLevelIn, BookMentorIn, MessageIn, now_iso, new_id,
 )
 from auth import hash_password, verify_password, create_token, get_current_user_id
 from ai_agents import stream_agent_response, get_agent_label
@@ -333,6 +333,159 @@ async def post_group_chat(body: GroupChatIn, user_id: str = Depends(get_current_
     }
     await db.group_chat.insert_one(msg)
     return {"ok": True, "message": {"from": user["name"], "text": body.message, "time": "just now"}}
+
+
+def find_known_person(person_id: str) -> dict | None:
+    """Resolve person_id from CONNECT_USERS or any SAMPLE_GROUPS member."""
+    for u in CONNECT_USERS:
+        if u["id"] == person_id:
+            return {"source": "connect", **u}
+    for g in SAMPLE_GROUPS:
+        for m in g["members"]:
+            if m["id"] == person_id:
+                return {
+                    "source": "group", "id": m["id"], "name": m["name"],
+                    "avatar": m["avatar"], "level": m.get("level", g.get("min_level", 1)),
+                    "goal": g.get("niche", "fullstack").lower(),
+                    "bio": f"Member of {g['name']} — working on {g['project']}.",
+                    "tags": [g.get("niche", "Mixed")],
+                    "education": "UG", "college": "—",
+                }
+    return None
+
+
+# ---------- Connections (people you've connected with) ----------
+@api.get("/connections")
+async def list_connections(user_id: str = Depends(get_current_user_id)):
+    """Connections shown at L5+. For demo, every L5+ user sees the CONNECT_USERS
+    as already-connected friends, with last-message previews + unread counts."""
+    doc = await db.users.find_one({"id": user_id})
+    lvl = doc.get("level", 1)
+    if lvl < 5:
+        return {"locked": True, "unlocks_at": 5, "current_level": lvl, "connections": []}
+
+    await seed_demo_messages(user_id)
+
+    out = []
+    for u in CONNECT_USERS:
+        thread = await db.messages.find(
+            {"$or": [
+                {"from_id": user_id, "to_id": u["id"]},
+                {"from_id": u["id"], "to_id": user_id},
+            ]}, {"_id": 0}
+        ).sort("at", -1).to_list(1)
+        last = thread[0] if thread else None
+        out.append({
+            "id": u["id"], "name": u["name"], "avatar": u["avatar"],
+            "level": u["level"], "goal": u["goal"], "college": u.get("college", ""),
+            "last_message": last["text"] if last else "Say hi 👋",
+            "last_at": last["at"] if last else None,
+            "from_me": (last["from_id"] == user_id) if last else False,
+        })
+    # Sort by last_at desc (None at the end)
+    out.sort(key=lambda x: x["last_at"] or "", reverse=True)
+    return {"locked": False, "connections": out}
+
+
+async def seed_demo_messages(user_id: str):
+    """Seed demo conversations for the first two contacts so the UI feels real."""
+    already = await db.messages.count_documents({"from_id": "cu_1", "to_id": user_id})
+    if already:
+        return
+    base = datetime.now(timezone.utc) - timedelta(days=2)
+    demo = [
+        # With Ravi Iyer (cu_1) — backend conversation
+        {"from_id": "cu_1", "to_id": user_id,
+         "text": "Hey! Saw you're on the AIML track too. How are you finding the gradient descent problem?",
+         "at": (base + timedelta(hours=0)).isoformat()},
+        {"from_id": user_id, "to_id": "cu_1",
+         "text": "Solid problem actually. Hand-deriving the gradient really helped intuition. You?",
+         "at": (base + timedelta(hours=1)).isoformat()},
+        {"from_id": "cu_1", "to_id": user_id,
+         "text": "Same! Btw, you in IIT Bombay? Always good to see fellow campus folks here.",
+         "at": (base + timedelta(hours=2)).isoformat()},
+        {"from_id": user_id, "to_id": "cu_1",
+         "text": "Yeah! Which dept are you in?",
+         "at": (base + timedelta(hours=2, minutes=10)).isoformat()},
+        {"from_id": "cu_1", "to_id": user_id,
+         "text": "CS, 3rd year. We should team up for the Build-a-Thon next week — I need someone strong on the ML side.",
+         "at": (base + timedelta(hours=5)).isoformat()},
+
+        # With Sofia Martins (cu_2) — frontend conversation
+        {"from_id": "cu_2", "to_id": user_id,
+         "text": "Hi! Liked your level badge. Mind sharing how you got to L10 so quick?",
+         "at": (base + timedelta(days=1)).isoformat()},
+        {"from_id": user_id, "to_id": "cu_2",
+         "text": "Mostly daily streak + focusing on the niche problems. The AI agents helped a lot with hints.",
+         "at": (base + timedelta(days=1, hours=1)).isoformat()},
+        {"from_id": "cu_2", "to_id": user_id,
+         "text": "Makes sense. I'm grinding the React/GSAP track. Want to collab on a UI side-project?",
+         "at": (base + timedelta(days=1, hours=4)).isoformat()},
+    ]
+    if demo:
+        await db.messages.insert_many(demo)
+
+
+@api.get("/messages/{contact_id}")
+async def get_thread(contact_id: str, user_id: str = Depends(get_current_user_id)):
+    doc = await db.users.find_one({"id": user_id})
+    if doc.get("level", 1) < 5:
+        raise HTTPException(403, "Messages unlock at Level 5")
+    await seed_demo_messages(user_id)
+    msgs = await db.messages.find(
+        {"$or": [
+            {"from_id": user_id, "to_id": contact_id},
+            {"from_id": contact_id, "to_id": user_id},
+        ]}, {"_id": 0}
+    ).sort("at", 1).to_list(500)
+    person = find_known_person(contact_id) or {"id": contact_id, "name": "Unknown"}
+    return {"messages": msgs, "contact": person, "me": user_id}
+
+
+@api.post("/messages/{contact_id}")
+async def send_message(contact_id: str, body: MessageIn, user_id: str = Depends(get_current_user_id)):
+    doc = await db.users.find_one({"id": user_id})
+    if doc.get("level", 1) < 5:
+        raise HTTPException(403, "Messages unlock at Level 5")
+    msg = {
+        "from_id": user_id, "to_id": contact_id,
+        "text": body.text, "at": now_iso(),
+    }
+    await db.messages.insert_one(msg)
+    msg.pop("_id", None)
+    return {"ok": True, "message": msg}
+
+
+# ---------- Public profile (used by Connect cards, Messages, Group members) ----------
+@api.get("/profile/{person_id}")
+async def get_profile(person_id: str, user_id: str = Depends(get_current_user_id)):
+    p = find_known_person(person_id)
+    if not p:
+        raise HTTPException(404, "Profile not found")
+    # Synthesize connections + groups counts deterministically
+    import hashlib
+    seed = hashlib.md5(person_id.encode()).hexdigest()
+    connections_count = 12 + (int(seed[:4], 16) % 80)
+    # Count groups where this person is a member
+    groups_in = []
+    for g in SAMPLE_GROUPS:
+        if any(m["id"] == person_id for m in g["members"]):
+            groups_in.append({
+                "id": g["id"], "name": g["name"], "project": g["project"],
+                "progress": g["progress"], "niche": g.get("niche", "Mixed"),
+            })
+    return {
+        "id": p["id"], "name": p["name"], "avatar": p["avatar"],
+        "level": p.get("level", 1),
+        "goal": p.get("goal", "fullstack"),
+        "bio": p.get("bio", ""),
+        "tags": p.get("tags", []),
+        "education": p.get("education", ""),
+        "college": p.get("college", ""),
+        "connections_count": connections_count,
+        "groups": groups_in,
+        "groups_count": len(groups_in),
+    }
 
 
 # ---------- Mentors ----------

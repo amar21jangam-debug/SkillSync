@@ -55,6 +55,13 @@ export const TID = {
   connectRequestBtn: (id) => `connect-request-${id}`,
   aiMatchBtn: "ai-match-btn",
 
+  // messages
+  messageContact: (id) => `msg-contact-${id}`,
+  messageInput: "msg-input",
+  messageSendBtn: "msg-send-btn",
+  profileOpenBtn: (id) => `profile-open-${id}`,
+  profileDrawer: "profile-drawer",
+
   // level switcher (demo)
   levelSwitcherBtn: "level-switcher-btn",
   levelOption: (lvl) => `level-option-${lvl}`,

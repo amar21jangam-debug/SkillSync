@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { api } from "../lib/api";
 import { useAuth } from "../lib/auth";
 import { TID } from "../constants/testIds";
-import { Lock, Sparkles, UserPlus, Check, Heart, GraduationCap } from "lucide-react";
+import { Lock, Sparkles, UserPlus, Check, Heart, GraduationCap, MessageSquare } from "lucide-react";
 import { toast } from "sonner";
+import ProfileDrawer from "../components/ProfileDrawer";
 
 export default function Connect() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [match, setMatch] = useState(null);
   const [matching, setMatching] = useState(false);
+  const [profileId, setProfileId] = useState(null);
 
   useEffect(() => { api.get("/connect/users").then((r) => setData(r.data)); }, []);
 
@@ -123,6 +127,8 @@ export default function Connect() {
           </div>
         ))}
       </div>
+
+      {profileId && <ProfileDrawer personId={profileId} onClose={() => setProfileId(null)} />}
     </div>
   );
 }

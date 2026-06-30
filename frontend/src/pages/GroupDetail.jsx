@@ -7,6 +7,7 @@ import {
   ArrowLeft, Video, Check, Circle, Send, Sparkles, Users, Award, Bot, Download, Lock,
 } from "lucide-react";
 import AIChatWidget from "../components/AIChatWidget";
+import ProfileDrawer from "../components/ProfileDrawer";
 import { generateCertificatePdf } from "./Certificates";
 
 export default function GroupDetail() {
@@ -16,6 +17,7 @@ export default function GroupDetail() {
   const [g, setG] = useState(null);
   const [msg, setMsg] = useState("");
   const [showAI, setShowAI] = useState(false);
+  const [profileId, setProfileId] = useState(null);
   const chatRef = useRef(null);
 
   const load = () => api.get(`/groups/${id}`).then((r) => setG(r.data));
@@ -155,10 +157,18 @@ export default function GroupDetail() {
             </div>
             <div className="space-y-3">
               {g.members.map((m) => (
-                <div key={m.id} className="flex items-center gap-3">
+                <button
+                  key={m.id}
+                  data-testid={TID.profileOpenBtn(m.id)}
+                  onClick={() => setProfileId(m.id)}
+                  className="w-full flex items-center gap-3 text-left p-2 -mx-2 rounded-lg hover:bg-white/[0.04] transition-colors"
+                >
                   <img src={m.avatar} alt={m.name} className="w-8 h-8 rounded-full" />
-                  <div className="text-sm">{m.name}</div>
-                </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm hover:text-[#CBFF3D] transition-colors">{m.name}</div>
+                    <div className="text-[10px] mono text-[#888]">L{m.level || g.min_level || 1} · view profile</div>
+                  </div>
+                </button>
               ))}
             </div>
           </div>
@@ -214,6 +224,7 @@ export default function GroupDetail() {
       </div>
 
       {showAI && <AIChatWidget initialOpen contextHint={`Group: ${g.name}\nProject: ${g.project}\nTasks: ${g.tasks.map(t => `${t.title} (${t.done ? "done" : "todo"}, owner ${t.assigned})`).join("; ")}`} />}
+      {profileId && <ProfileDrawer personId={profileId} onClose={() => setProfileId(null)} />}
     </div>
   );
 }

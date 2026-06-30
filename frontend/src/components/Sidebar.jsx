@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   LayoutDashboard, Map, Code2, BarChart3, Trophy, Users,
-  GraduationCap, Heart, BookOpen, LogOut, Flame, Sparkles, Award,
+  GraduationCap, Heart, BookOpen, LogOut, Flame, Sparkles, Award, MessageSquare,
 } from "lucide-react";
 import { useAuth } from "../lib/auth";
 import { TID } from "../constants/testIds";
@@ -18,6 +18,7 @@ const ITEMS = [
   { key: "groups", to: "/app/groups", label: "Group Discussion", icon: Users },
   { key: "mentors", to: "/app/mentors", label: "Mentors", icon: GraduationCap },
   { key: "connect", to: "/app/connect", label: "Connect", icon: Heart },
+  { key: "messages", to: "/app/messages", label: "Messages", icon: MessageSquare, requiresLevel: 5 },
   { key: "certificates", to: "/app/certificates", label: "Certificates", icon: Award },
   { key: "how", to: "/app/how-it-works", label: "How It Works", icon: BookOpen },
 ];
@@ -80,6 +81,7 @@ export default function Sidebar({ open, onClose }) {
           <div ref={indicatorRef} className="absolute left-0 top-0 w-[2px] h-10 bg-[#FFFFFF] rounded-r" />
           {ITEMS.map((it) => {
             const Icon = it.icon;
+            const lockedByLevel = it.requiresLevel && user && user.level < it.requiresLevel;
             return (
               <NavLink
                 key={it.key}
@@ -90,11 +92,14 @@ export default function Sidebar({ open, onClose }) {
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-6 py-3 text-sm transition-all duration-200 ${
                     isActive ? "sidebar-item-active" : "text-[#CCCCCC] hover:text-white hover:bg-[#141414]"
-                  }`
+                  } ${lockedByLevel ? "opacity-60" : ""}`
                 }
               >
                 <Icon size={18} />
                 <span>{it.label}</span>
+                {lockedByLevel && (
+                  <span className="ml-auto text-[9px] mono uppercase tracking-widest text-[#888]">L{it.requiresLevel}</span>
+                )}
               </NavLink>
             );
           })}
