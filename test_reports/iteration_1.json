@@ -1,0 +1,43 @@
+{
+  "summary": "First-build end-to-end review of SkillSync. Backend: 23/23 pytest tests pass (auth, onboarding, roadmap, problems CRUD+solve, performance, contests, groups list/detail/chat persistence, mentors, connect lock, AI SSE streaming with Claude Sonnet 4.5 via emergentintegrations). Frontend: Landing -> Register -> Onboarding (4 steps) -> Dashboard -> Practice -> Solve problem -> Groups (3 cards, group detail with start-meet-btn) -> Connect (locked at L<5) -> How It Works -> AI chat panel all working. Dark theme (rgb(0,0,0) body bg, #FF6200 orange accents) confirmed. Real Claude SSE stream verified end-to-end.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "/api/problems/solve", "issue": "Streak logic uses (date.fromisoformat(last) - date.today()).days == -1 which works only when last is yesterday; if last is older than yesterday it correctly resets — behavior is correct but the date math reads backwards. Cosmetic readability issue, not a bug."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "AIChatWidget floating button", "issue": "The fixed orange float button at bottom-6 right-6 visually overlaps the persistent 'Made with Emergent' badge in the same corner. Playwright .click(force=true) on data-testid=ai-float-btn did not consistently fire React's onClick — only programmatic btn.click() worked. Real users may also have trouble hitting it cleanly. Recommend offsetting the button (e.g., bottom-20 right-6) or raising z-index above the Emergent badge.", "selector": "[data-testid=\"ai-float-btn\"]", "priority": "MEDIUM"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Optional: reposition or raise z-index of the AI float button so it does not visually collide with the Emergent badge in the bottom-right corner.",
+    "Optional: clarify the streak date-math in /api/problems/solve for readability (current logic is functionally correct)."
+  ],
+  "critical_code_review_comments": [
+    "All endpoints exclude MongoDB _id via projection or via Pydantic model_dump — good.",
+    "JWT auth wired correctly with bcrypt password hashing and 30-day expiry; missing/invalid token both return 401 as expected.",
+    "AI SSE endpoint correctly sets text/event-stream + X-Accel-Buffering: no for nginx, emits event: meta, data: chunks, event: done — verified via real Claude Sonnet 4.5 call.",
+    "Connect lock (<L5) is enforced server-side on both GET /api/connect/users and POST /api/connect/match (403) — secure.",
+    "Group chat is persisted to db.group_chat and merged with seed chat on GET; round-trip verified.",
+    "Frontend uses process.env.REACT_APP_BACKEND_URL and tokenStore — no hardcoded URLs.",
+    "Files are reasonably sized (server.py ~385 lines). No DRY violations observed."
+  ],
+  "updated_files": [
+    "/app/backend/tests/backend_test.py (created)"
+  ],
+  "success_rate": {"backend": "100% (23/23)", "frontend": "~95% (all flows working; one tool-only click quirk on AI float button likely caused by Emergent-badge overlap)"},
+  "test_credentials": "Created fresh users per test run (test_<run>@skillsync.io / Test1234!). Demo user demo@skillsync.io / demo1234 is documented in /app/memory/test_credentials.md.",
+  "seed_data_creation": "Static seed content (PROBLEMS, ROADMAPS, CONTESTS, MENTORS, SAMPLE_GROUPS, CONNECT_USERS) is in /app/backend/content.py and served directly — no DB seeding required. Each test run creates its own user; no cleanup needed.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Backend test suite is at /app/backend/tests/backend_test.py and uses unique per-run emails so it can be re-run safely. Run with `python -m pytest tests/backend_test.py -n 0 --junitxml=/app/test_reports/pytest/pytest_results.xml` (the repo's pytest.ini forces xdist loadscope which can split TestRoadmap from TestOnboarding across workers and cause a fixture-isolation false failure — use -n 0 for the suite as written, or make each class register its own onboarded user if you want parallelism). The AI streaming test consumes the real SSE stream from Claude Sonnet 4.5 and may take ~5-15s. For frontend AI-chat verification, prefer programmatic JS click on data-testid=ai-float-btn (the Emergent badge overlap interferes with Playwright's click).",
+  "rca of the issue": "AI float button UX/test friction RCA: The floating AI button is positioned fixed bottom-6 right-6 with z-50. The Emergent platform injects a 'Made with Emergent' badge in the same bottom-right region, also fixed and likely with comparable or higher z-index. This causes visual overlap and makes Playwright's force-click resolve to a coordinate where the badge intercepts the click. Reproduction: open dashboard, observe bottom-right corner — orange button is partially behind/aligned with the badge. Mitigation: bump the button to bottom-20 right-6 OR explicitly raise z-index to z-[60] above the badge."
+}
