@@ -1,0 +1,125 @@
+{
+  "theme": {
+    "mode": "dark",
+    "archetype": "The Performance Pro",
+    "description": "Premium, tactical, cyber-modern dark theme designed for tech skill development. Emphasizes focus, gamification, and high contrast."
+  },
+  "colors": {
+    "background": {
+      "main": "#000000",
+      "alt": "#0A0A0A"
+    },
+    "surface": {
+      "primary": "#1F1F1F",
+      "secondary": "#2A2A2A",
+      "hover": "#333333"
+    },
+    "text": {
+      "primary": "#FFFFFF",
+      "secondary": "#CCCCCC",
+      "muted": "#888888"
+    },
+    "accent": {
+      "primary": "#FF6200",
+      "glow": "rgba(255, 98, 0, 0.4)",
+      "hover": "#FF7B29"
+    },
+    "system": {
+      "success": "#22C55E",
+      "warning": "#F59E0B",
+      "error": "#EF4444"
+    }
+  },
+  "typography": {
+    "fonts": {
+      "heading": "Outfit, sans-serif",
+      "body": "JetBrains Mono, monospace"
+    },
+    "scale": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl tracking-tight font-bold",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl tracking-tight font-semibold",
+      "h3": "text-xl sm:text-2xl font-medium",
+      "h4": "text-lg sm:text-xl font-medium",
+      "body": "text-base leading-relaxed",
+      "small": "text-sm",
+      "overline": "text-xs uppercase tracking-[0.2em]"
+    }
+  },
+  "spacing_and_layout": {
+    "philosophy": "Generous Spacing Philosophy with Control Room Grids",
+    "dashboard_grid": "grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6",
+    "padding": {
+      "section": "py-20 md:py-32",
+      "card": "p-6 sm:p-8"
+    },
+    "surfaces": {
+      "cards": "bg-[#1F1F1F] border border-[#2A2A2A] rounded-xl",
+      "glass": "backdrop-blur-xl bg-black/60 border-b border-white/10"
+    }
+  },
+  "motion_and_interaction": {
+    "gsap_defaults": {
+      "scroll_reveal": "Fade-in + slide-up (y: 30, opacity: 0, duration: 0.6, ease: 'power2.out')",
+      "stagger": "0.1s for lists and grids"
+    },
+    "hover_states": {
+      "cards": "transition-all duration-300 ease-out hover:scale-[1.03] hover:shadow-[0_0_15px_rgba(255,98,0,0.3)] hover:border-[#FF6200]/50",
+      "buttons": "transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,98,0,0.5)] active:scale-95"
+    },
+    "components": {
+      "progress_bar": "Animated width expansion with neon orange glow.",
+      "level_badge": "Pops in with scale (0 to 1) and continuous subtle pulsing glow."
+    }
+  },
+  "components": {
+    "button": {
+      "primary": "bg-[#FF6200] text-white font-medium px-6 py-3 rounded-lg hover:bg-[#FF7B29] transition-all",
+      "secondary": "bg-[#2A2A2A] text-white border border-[#444444] px-6 py-3 rounded-lg hover:bg-[#333333] hover:border-[#FF6200]/50 transition-all",
+      "ghost": "text-[#CCCCCC] hover:text-[#FF6200] px-4 py-2 rounded-lg transition-colors"
+    },
+    "input": "bg-[#1F1F1F] border border-[#2A2A2A] text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-[#FF6200]/50 focus:border-[#FF6200] transition-all",
+    "floating_chat": "fixed bottom-6 right-6 w-14 h-14 bg-[#FF6200] rounded-full shadow-[0_0_20px_rgba(255,98,0,0.6)] flex items-center justify-center cursor-pointer hover:scale-110 transition-transform z-50",
+    "testing": "All interactive elements MUST include data-testid attribute (e.g., data-testid='login-button')"
+  },
+  "media": {
+    "images": [
+      {
+        "category": "hero_background",
+        "url": "https://images.unsplash.com/photo-1758657286922-be0f59382411?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNDR8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMGRhcmslMjB0ZWNobm9sb2d5JTIwZ2VvbWV0cmljJTIwb3JhbmdlfGVufDB8fHx8MTc4MjgyOTI3NHww&ixlib=rb-4.1.0&q=85",
+        "description": "Abstract orange light streaks on black background, perfect for cyber-modern hero sections."
+      },
+      {
+        "category": "workspace",
+        "url": "https://images.unsplash.com/photo-1520583457224-aee11bad5112?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzR8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBwcm9ncmFtbWluZyUyMHdvcmtzcGFjZSUyMGRhcmt8ZW58MHx8fHwxNzgyODI5Mjc1fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Dark modern programming workspace, to be used in Onboarding or Connect/Social sections."
+      },
+      {
+        "category": "avatar_mentor",
+        "url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTB8MHwxfHNlYXJjaHwxfHxwcm9maWxlJTIwcG9ydHJhaXQlMjBkZXZlbG9wZXIlMjBsaWdodGluZ3xlbnwwfHx8fDE3ODI4MjkyNzR8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Professional developer portrait, ideal for Mentors directory or Connect/Social feed."
+      }
+    ],
+    "icons_library": "@phosphor-icons/react"
+  },
+  "pages_and_features": {
+    "onboarding": "Goal selection (Backend/Frontend/AIML), personality quiz. Generates personalized roadmap.",
+    "dashboard": "Displays streak, level badge, XP, roadmap preview, and daily activity. Uses Control Room grid.",
+    "my_roadmap": "Vertical timeline with animated orange progress line.",
+    "practice_problems": "Coding interface with 'I'm Stuck' AI chat widget and YouTube integration.",
+    "my_performance": "Charts (Recharts) and streak calendar.",
+    "contests": "Leaderboards with gamified row highlights for top users.",
+    "group_discussion": "Grid of My Groups leading to detailed group views (tasks, chat, multi-agent AI, Google Meet integration, completion certificates).",
+    "mentors": "Directory of tech mentors with booking capabilities.",
+    "social_connect": "Instagram-style feed unlocking at Level 5.",
+    "levels_system": "Gamified unlocks: Level 5 (Social), Level 15-20 (Voice AI/Meet)."
+  },
+  "instructions_to_main_agent": [
+    "Strictly adhere to the pure #0A0A0A or #000000 background.",
+    "Implement GSAP for all scroll reveals and progress bar animations.",
+    "Apply hover scale 1.03 and orange glow to all interactive cards and primary buttons.",
+    "Use Phosphor icons for sidebar navigation and actions.",
+    "Use JetBrains Mono for all code-related or tabular data to emphasize the cyber-modern developer feel.",
+    "Ensure all data-testids are present for automated testing.",
+    "Use raw HTML/Tailwind for marketing layouts and Shadcn UI heavily customized for the app dashboard features."
+  ]
+}
