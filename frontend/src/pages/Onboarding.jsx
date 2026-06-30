@@ -16,6 +16,7 @@ const GOALS = [
 
 const PERSONALITY = ["Tech-leaning", "Math-leaning", "Design-leaning", "Product-minded", "Researcher", "Builder"];
 const CONNECT = ["Peers at my level", "Senior mentors", "Project collaborators", "Study buddies", "Interview partners"];
+const EDUCATION = ["UG", "PG", "Other"];
 
 export default function Onboarding() {
   const { user, setUser } = useAuth();
@@ -26,6 +27,8 @@ export default function Onboarding() {
   const [personalityText, setPersonalityText] = useState("");
   const [connectWith, setConnectWith] = useState([]);
   const [connectText, setConnectText] = useState("");
+  const [education, setEducation] = useState("UG");
+  const [college, setCollege] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const stepRef = useRef(null);
 
@@ -47,6 +50,7 @@ export default function Onboarding() {
       const { data } = await api.post("/onboarding", {
         goal, personality, personality_text: personalityText,
         connect_with: connectWith, connect_text: connectText,
+        education, college,
       });
       setUser(data);
       navigate("/app");
@@ -67,8 +71,8 @@ export default function Onboarding() {
         </div>
 
         <div className="flex items-center gap-2 mb-6">
-          {[0, 1, 2, 3].map((i) => (
-            <div key={i} className={`h-1 flex-1 rounded-full transition-all ${i <= step ? "bg-[#FFFFFF]" : "bg-[#2A2A2A]"}`} />
+          {[0, 1, 2, 3, 4].map((i) => (
+            <div key={i} className={`h-1 flex-1 rounded-full transition-all ${i <= step ? "bg-[#CBFF3D]" : "bg-[#2A2A2A]"}`} />
           ))}
         </div>
 
@@ -162,16 +166,51 @@ export default function Onboarding() {
 
           {step === 3 && (
             <>
+              <h2 className="text-2xl font-semibold mb-2">Where are you studying?</h2>
+              <p className="text-sm text-[#CCCCCC] mb-6">So we can match you with classmates and same-college peers on Connect.</p>
+              <div className="text-xs mono uppercase tracking-widest text-[#888] mb-2">Current education</div>
+              <div className="flex flex-wrap gap-2 mb-5">
+                {EDUCATION.map((e) => {
+                  const active = education === e;
+                  return (
+                    <button
+                      key={e}
+                      data-testid={`onb-edu-${e.toLowerCase()}`}
+                      onClick={() => setEducation(e)}
+                      className={`px-4 py-1.5 rounded-full text-sm border transition-all ${active ? "bg-[#CBFF3D] text-black border-[#CBFF3D]" : "bg-[#1F1F1F] border-[#2A2A2A] hover:border-[#CBFF3D]/50"}`}
+                    >
+                      {active && <Check size={12} className="inline mr-1" />}
+                      {e === "UG" ? "Undergraduate (UG)" : e === "PG" ? "Postgraduate (PG)" : "Other"}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="text-xs mono uppercase tracking-widest text-[#888] mb-2">College / Institution</div>
+              <input
+                data-testid="onb-college-input"
+                value={college} onChange={(e) => setCollege(e.target.value)}
+                placeholder="e.g. IIT Bombay, BITS Pilani, Stanford..."
+                className="input-skill"
+              />
+              <div className="text-xs text-[#888] mt-3">Leave blank if you'd rather not share.</div>
+            </>
+          )}
+
+          {step === 4 && (
+            <>
               <h2 className="text-2xl font-semibold mb-2">All set, {user.name.split(" ")[0]}.</h2>
               <p className="text-sm text-[#CCCCCC] mb-6">We'll generate your personalized {goal?.toUpperCase()} roadmap now.</p>
               <div className="surface-card p-5 border-[#CBFF3D]/30">
                 <div className="text-xs mono uppercase tracking-widest text-[#CBFF3D] mb-2">Track</div>
                 <div className="text-lg font-semibold mb-3 capitalize">{goal?.replace("_", " ")}</div>
-                <div className="text-sm text-[#CCCCCC] mb-3">
+                <div className="text-sm text-[#CCCCCC] mb-2">
                   Personality: <span className="text-white">{personality.join(", ") || "—"}</span>
                 </div>
-                <div className="text-sm text-[#CCCCCC]">
+                <div className="text-sm text-[#CCCCCC] mb-2">
                   Connect with: <span className="text-white">{connectWith.join(", ") || "—"}</span>
+                </div>
+                <div className="text-sm text-[#CCCCCC]">
+                  Education: <span className="text-white">{education}{college ? ` · ${college}` : ""}</span>
                 </div>
               </div>
             </>
@@ -186,7 +225,7 @@ export default function Onboarding() {
             >
               <ArrowLeft size={16} /> Back
             </button>
-            {step < 3 ? (
+            {step < 4 ? (
               <button
                 data-testid={TID.onbNextBtn}
                 disabled={(step === 0 && !goal)}

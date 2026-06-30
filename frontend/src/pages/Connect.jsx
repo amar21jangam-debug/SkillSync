@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 import { useAuth } from "../lib/auth";
 import { TID } from "../constants/testIds";
-import { Lock, Sparkles, UserPlus, Check, Heart } from "lucide-react";
+import { Lock, Sparkles, UserPlus, Check, Heart, GraduationCap } from "lucide-react";
 import { toast } from "sonner";
 
 export default function Connect() {
@@ -59,6 +59,11 @@ export default function Connect() {
         <div>
           <div className="text-xs mono uppercase tracking-[0.25em] text-[#CBFF3D] mb-2">Connect</div>
           <h1 className="text-3xl lg:text-4xl font-semibold tracking-tight">Your people, your pace.</h1>
+          {data.my_college && (
+            <div className="text-xs text-[#CCCCCC] mt-2 flex items-center gap-1">
+              <GraduationCap size={13} className="text-[#CBFF3D]" /> Showing matches from <span className="text-white">{data.my_college}</span> first
+            </div>
+          )}
         </div>
         <button data-testid={TID.aiMatchBtn} onClick={aiMatch} disabled={matching} className="btn-primary self-start md:self-auto">
           <Sparkles size={16} /> {matching ? "Matching..." : "AI Random Match"}
@@ -82,13 +87,23 @@ export default function Connect() {
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {data.users.map((u) => (
-          <div key={u.id} data-testid={TID.connectCard(u.id)} className="surface-card surface-card-hover overflow-hidden">
+          <div key={u.id} data-testid={TID.connectCard(u.id)} className={`surface-card surface-card-hover overflow-hidden relative ${u.same_college ? "border-[#CBFF3D]/60 shadow-[0_0_22px_rgba(203,255,61,0.18)]" : ""}`}>
+            {u.same_college && (
+              <div className="absolute top-3 right-3 z-10 glass-pill !text-[10px]">
+                <GraduationCap size={11}/> Same college
+              </div>
+            )}
             <div className="h-20 bg-gradient-to-br from-[#CBFF3D]/30 to-[#1F1F1F]" />
             <div className="px-5 pb-5 -mt-10">
               <img src={u.avatar} alt={u.name} className="w-16 h-16 rounded-full border-4 border-[#0A0A0A]" />
               <div className="mt-3">
                 <div className="font-semibold">{u.name}</div>
                 <div className="text-xs text-[#888] capitalize">{u.goal.replace("_", " ")} · Level {u.level}</div>
+                {u.college && (
+                  <div className="text-xs text-[#CCCCCC] mt-1 flex items-center gap-1">
+                    <GraduationCap size={11} className="text-[#CBFF3D]"/> {u.education} · {u.college}
+                  </div>
+                )}
               </div>
               <div className="text-sm text-[#CCCCCC] mt-2 line-clamp-2">{u.bio}</div>
               <div className="flex flex-wrap gap-1 mt-3">

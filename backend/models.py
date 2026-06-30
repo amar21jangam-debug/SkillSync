@@ -25,11 +25,13 @@ class UserLogin(BaseModel):
 
 
 class OnboardingData(BaseModel):
-    goal: str  # backend / frontend / aiml / data_science / fullstack
-    personality: List[str] = []  # tech, math, others
+    goal: str
+    personality: List[str] = []
     personality_text: Optional[str] = ""
-    connect_with: List[str] = []  # mentors, peers, etc.
+    connect_with: List[str] = []
     connect_text: Optional[str] = ""
+    education: Optional[str] = ""  # UG / PG / Other
+    college: Optional[str] = ""
 
 
 class UserPublic(BaseModel):
@@ -43,6 +45,8 @@ class UserPublic(BaseModel):
     personality_text: Optional[str] = ""
     connect_with: List[str] = []
     connect_text: Optional[str] = ""
+    education: Optional[str] = ""
+    college: Optional[str] = ""
     level: int = 1
     xp: int = 0
     streak: int = 0

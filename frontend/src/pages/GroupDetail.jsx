@@ -179,12 +179,15 @@ export default function GroupDetail() {
                 <button
                   onClick={() => generateCertificatePdf({
                     id: `cert_${g.id}`,
-                    title: `${g.project} — Team Certificate`,
+                    kind: "group",
+                    title: `${g.name} — Team Certificate`,
                     issued_to: user?.name,
                     issued_on: new Date().toISOString().slice(0, 10),
                     skills: [],
                     participation: 100,
+                    effort_percent: 100,
                     project: g.project,
+                    team_members: g.members.map(m => m.name),
                   })}
                   className="btn-primary w-full justify-center text-sm"
                 >

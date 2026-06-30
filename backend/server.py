@@ -23,7 +23,7 @@ from auth import hash_password, verify_password, create_token, get_current_user_
 from ai_agents import stream_agent_response, get_agent_label
 from content import (
     ROADMAPS, PROBLEMS, CONTESTS, LEADERBOARD, MENTORS, SAMPLE_GROUPS,
-    CONNECT_USERS, level_for_xp,
+    CONNECT_USERS, level_for_xp, problems_for_goal,
 )
 
 mongo_url = os.environ["MONGO_URL"]
@@ -43,6 +43,8 @@ def user_doc_to_public(doc: dict) -> UserPublic:
         personality_text=doc.get("personality_text", ""),
         connect_with=doc.get("connect_with", []),
         connect_text=doc.get("connect_text", ""),
+        education=doc.get("education", ""),
+        college=doc.get("college", ""),
         level=doc.get("level", 1),
         xp=doc.get("xp", 0),
         streak=doc.get("streak", 0),
@@ -78,6 +80,8 @@ async def register(body: UserRegister):
         "personality_text": "",
         "connect_with": [],
         "connect_text": "",
+        "education": "",
+        "college": "",
         "level": 1,
         "xp": 0,
         "streak": 0,
@@ -120,6 +124,8 @@ async def save_onboarding(body: OnboardingData, user_id: str = Depends(get_curre
         "personality_text": body.personality_text or "",
         "connect_with": body.connect_with,
         "connect_text": body.connect_text or "",
+        "education": body.education or "",
+        "college": body.college or "",
         "onboarding_complete": True,
     }
     await db.users.update_one({"id": user_id}, {"$set": update})
@@ -157,36 +163,49 @@ async def get_roadmap(user_id: str = Depends(get_current_user_id)):
 async def list_problems(user_id: str = Depends(get_current_user_id)):
     doc = await db.users.find_one({"id": user_id})
     solved = set(doc.get("completed_problems", []))
-    return [{**p, "solved": p["id"] in solved} for p in PROBLEMS]
+    items = problems_for_goal(doc.get("goal"))
+    return [{**p, "solved": p["id"] in solved} for p in items]
 
 
 @api.get("/problems/{problem_id}")
 async def get_problem(problem_id: str, user_id: str = Depends(get_current_user_id)):
-    p = next((x for x in PROBLEMS if x["id"] == problem_id), None)
-    if not p:
-        raise HTTPException(404, "Problem not found")
     doc = await db.users.find_one({"id": user_id})
+    items = problems_for_goal(doc.get("goal"))
+    p = next((x for x in items if x["id"] == problem_id), None)
+    if not p:
+        # Allow legacy lookup across all goals
+        for goal_items in [problems_for_goal(g) for g in ["backend","frontend","aiml","data_science","fullstack"]]:
+            p = next((x for x in goal_items if x["id"] == problem_id), None)
+            if p:
+                break
+        if not p:
+            raise HTTPException(404, "Problem not found")
     return {**p, "solved": problem_id in doc.get("completed_problems", [])}
 
 
 @api.post("/problems/solve")
 async def mark_solved(body: SolveProblemIn, user_id: str = Depends(get_current_user_id)):
-    p = next((x for x in PROBLEMS if x["id"] == body.problem_id), None)
-    if not p:
-        raise HTTPException(404, "Problem not found")
     doc = await db.users.find_one({"id": user_id})
+    items = problems_for_goal(doc.get("goal"))
+    p = next((x for x in items if x["id"] == body.problem_id), None)
+    if not p:
+        for goal_items in [problems_for_goal(g) for g in ["backend","frontend","aiml","data_science","fullstack"]]:
+            p = next((x for x in goal_items if x["id"] == body.problem_id), None)
+            if p:
+                break
+        if not p:
+            raise HTTPException(404, "Problem not found")
     completed = set(doc.get("completed_problems", []))
     today = date.today().isoformat()
     last = doc.get("last_active")
     streak = doc.get("streak", 0)
     if last == today:
-        pass  # same day, keep streak
+        pass
     elif last and (date.fromisoformat(last) - date.today()).days == -1:
         streak += 1
     else:
         streak = 1
     if body.problem_id in completed:
-        # already solved, just bump streak, no XP
         await db.users.update_one({"id": user_id}, {"$set": {"streak": streak, "last_active": today}})
     else:
         completed.add(body.problem_id)
@@ -201,7 +220,6 @@ async def mark_solved(body: SolveProblemIn, user_id: str = Depends(get_current_u
                 "last_active": today,
             }},
         )
-        # log activity
         await db.activity.insert_one({
             "user_id": user_id, "date": today, "problem_id": body.problem_id,
             "xp_earned": p["xp"], "title": p["title"], "at": now_iso(),
@@ -235,8 +253,19 @@ async def get_performance(user_id: str = Depends(get_current_user_id)):
 
 # ---------- Contests ----------
 @api.get("/contests")
-async def list_contests():
-    return {"contests": CONTESTS, "leaderboard": LEADERBOARD}
+async def list_contests(user_id: str = Depends(get_current_user_id)):
+    doc = await db.users.find_one({"id": user_id})
+    lvl = doc.get("level", 1) if doc else 1
+    individual = [c for c in CONTESTS if c.get("kind") == "individual"]
+    group = [c for c in CONTESTS if c.get("kind") == "group"]
+    return {
+        "individual": individual,
+        "group": group,
+        "group_locked": lvl < 5,
+        "group_unlocks_at": 5,
+        "user_level": lvl,
+        "leaderboard": LEADERBOARD,
+    }
 
 
 # ---------- Groups ----------
@@ -342,51 +371,69 @@ async def list_bookings(user_id: str = Depends(get_current_user_id)):
 # ---------- Certificates ----------
 @api.get("/certificates")
 async def list_certificates(user_id: str = Depends(get_current_user_id)):
-    """Earned + available certificates. Earned = group projects with 100% tasks + sample issued."""
+    """Earned + locked certificates, split by kind (individual vs group)."""
     doc = await db.users.find_one({"id": user_id})
     earned = []
-    # Sample earned cert if user has solved >=2 problems
+    name = doc["name"]
+    today = now_iso()[:10]
+
+    # Individual: DSA / niche starter (when user has solved at least 2 problems)
     if len(doc.get("completed_problems", [])) >= 2:
         earned.append({
-            "id": "cert_dsa_starter",
-            "title": "DSA Starter Certificate",
-            "issued_to": doc["name"],
-            "issued_on": doc.get("last_active") or now_iso()[:10],
-            "skills": ["Arrays", "Hashmaps", "Stack"],
-            "participation": 100,
-            "project": None,
-            "level_required": 1,
+            "id": "cert_starter", "kind": "individual",
+            "title": "Problem-Solving Starter",
+            "issued_to": name, "issued_on": today,
+            "skills": ["Practice", "AI-assisted learning"],
+            "participation": 100, "effort_percent": 100,
+            "project": None, "level_required": 1,
         })
-    # Group certs for groups with 100% completion
+
+    # Group certificates — completed group projects
+    # Effort % is a deterministic-but-varied number per user+group, between 60–100
+    import hashlib
     for g in SAMPLE_GROUPS:
         done_ratio = sum(1 for t in g["tasks"] if t["done"]) / len(g["tasks"])
         if done_ratio == 1.0:
+            seed = hashlib.md5(f"{user_id}:{g['id']}".encode()).hexdigest()
+            effort = 60 + (int(seed[:4], 16) % 41)  # 60..100
             earned.append({
-                "id": f"cert_{g['id']}",
-                "title": f"{g['project']} — Team Certificate",
-                "issued_to": doc["name"],
-                "issued_on": now_iso()[:10],
+                "id": f"cert_{g['id']}", "kind": "group",
+                "title": f"{g['name']} — Team Certificate",
+                "issued_to": name, "issued_on": today,
                 "skills": [],
-                "participation": 100,
+                "participation": effort,
+                "effort_percent": effort,
                 "project": g["project"],
-                "level_required": 1,
+                "team_members": [m["name"] for m in g["members"]],
+                "level_required": g.get("min_level", 1),
             })
-    # Level-based achievement certificates
+
+    # Level achievement individual certs
     lvl = doc.get("level", 1)
     achievements = [
-        {"id": "cert_lvl5",  "title": "Squad Unlocked",        "level_required": 5,  "desc": "Reached Level 5 — Connect + Create a Squad"},
-        {"id": "cert_lvl7",  "title": "Niche Owner",           "level_required": 7,  "desc": "Reached Level 7 — Specialist in your niche"},
-        {"id": "cert_lvl10", "title": "Multi-Group + Video",   "level_required": 10, "desc": "Reached Level 10 — Join multiple groups + Video chat"},
+        {"id": "cert_lvl5",  "title": "Squad Unlocked",      "level_required": 5,  "desc": "Reached Level 5 — Connect + Create a Squad"},
+        {"id": "cert_lvl7",  "title": "Niche Owner",         "level_required": 7,  "desc": "Reached Level 7 — Specialist in your niche"},
+        {"id": "cert_lvl10", "title": "Multi-Group + Video", "level_required": 10, "desc": "Reached Level 10 — Join multiple groups + Video chat"},
     ]
     for a in achievements:
         if lvl >= a["level_required"]:
             earned.append({
-                "id": a["id"], "title": a["title"], "issued_to": doc["name"],
-                "issued_on": now_iso()[:10], "skills": [], "participation": 100,
+                "id": a["id"], "kind": "individual",
+                "title": a["title"], "issued_to": name,
+                "issued_on": today, "skills": [],
+                "participation": 100, "effort_percent": 100,
                 "project": a["desc"], "level_required": a["level_required"],
             })
     locked = [a for a in achievements if lvl < a["level_required"]]
-    return {"earned": earned, "locked": locked, "level": lvl}
+
+    earned_group = [c for c in earned if c["kind"] == "group"]
+    earned_individual = [c for c in earned if c["kind"] == "individual"]
+    return {
+        "earned_individual": earned_individual,
+        "earned_group": earned_group,
+        "locked": locked,
+        "level": lvl,
+    }
 
 
 # ---------- Demo: set level (for presentations) ----------
@@ -432,13 +479,16 @@ async def list_connect_users(user_id: str = Depends(get_current_user_id)):
     doc = await db.users.find_one({"id": user_id})
     if doc.get("level", 1) < 5:
         return {"locked": True, "unlocks_at": 5, "current_level": doc.get("level", 1), "users": []}
-    # Filter out already connected
     requests = await db.connections.find({"from_user": user_id}, {"_id": 0}).to_list(100)
     sent = {r["to_user"] for r in requests}
-    return {
-        "locked": False,
-        "users": [{**u, "request_sent": u["id"] in sent} for u in CONNECT_USERS],
-    }
+    my_college = (doc.get("college") or "").strip().lower()
+    users = []
+    for u in CONNECT_USERS:
+        same_college = bool(my_college) and (u.get("college", "").strip().lower() == my_college)
+        users.append({**u, "request_sent": u["id"] in sent, "same_college": same_college})
+    # Same-college users first
+    users.sort(key=lambda x: (not x["same_college"], x["name"]))
+    return {"locked": False, "users": users, "my_college": doc.get("college", "")}
 
 
 @api.post("/connect/request")
