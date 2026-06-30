@@ -40,9 +40,12 @@ Build a modern, premium, dark-themed web app called "SkillSync" for tech skill d
 ## Deferred / Backlog
 - P1: Real-time voice AI integration (currently button is disabled with tooltip)
 - P1: Drag-and-drop tasks, task creation UI in groups
-- P1: Mentor booking flow (calendar)
-- P1: Profile editing UI
-- P2: Code editor in problem detail (Monaco)
 - P2: Real WebSocket group chat
-- P2: Certificate PDF download
 - P2: Email verification + password reset
+
+## Iter 2 (Feb 2026) — Demo enhancements
+- Added `POST /api/dev/set-level` and a sidebar "Demo Mode" level switcher (L1/3/5/10/15/20/25) so users can preview Connect, Voice AI, and Architect features during demos/presentations.
+- New `Certificates` page (sidebar #10) listing earned certs (DSA Starter, Group team certs, level milestone certs L5/L10/L15/L20) + locked previews. PDF download via jsPDF (landscape, branded). Group detail page also gets a direct "Download PDF" button when project is 100%.
+- Mentors: added booking flow. `POST /api/mentors/{id}/book` + `GET /api/mentors/bookings`. Dialog shows next 8 slots; confirmed bookings appear at the top of the Mentors page.
+- Practice: added Monaco code editor (`@monaco-editor/react`) with starter code per problem, language switcher (JS/TS/Python), "Get AI review" button that opens the chat with the current code as context.
+- How It Works: added a "Levels & Unlocks" vertical timeline showing what you get at each tier (L1 Starter, L5 Connect, L10 Squad Leader, L15 Voice AI Adept, L20 Architect).

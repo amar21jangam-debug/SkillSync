@@ -80,3 +80,13 @@ class AIMatchIn(BaseModel):
 class GroupChatIn(BaseModel):
     group_id: str
     message: str
+
+
+class SetLevelIn(BaseModel):
+    level: int  # 1..25
+
+
+class BookMentorIn(BaseModel):
+    mentor_id: str
+    slot: str  # ISO datetime string
+    note: Optional[str] = ""

@@ -16,7 +16,8 @@ load_dotenv(ROOT_DIR / ".env")
 
 from models import (
     UserRegister, UserLogin, UserPublic, TokenResponse, OnboardingData,
-    ChatMessageIn, SolveProblemIn, ConnectRequestIn, GroupChatIn, now_iso, new_id,
+    ChatMessageIn, SolveProblemIn, ConnectRequestIn, GroupChatIn,
+    SetLevelIn, BookMentorIn, now_iso, new_id,
 )
 from auth import hash_password, verify_password, create_token, get_current_user_id
 from ai_agents import stream_agent_response, get_agent_label
@@ -294,6 +295,94 @@ async def post_group_chat(body: GroupChatIn, user_id: str = Depends(get_current_
 @api.get("/mentors")
 async def list_mentors():
     return MENTORS
+
+
+@api.post("/mentors/{mentor_id}/book")
+async def book_mentor(mentor_id: str, body: BookMentorIn, user_id: str = Depends(get_current_user_id)):
+    m = next((x for x in MENTORS if x["id"] == mentor_id), None)
+    if not m:
+        raise HTTPException(404, "Mentor not found")
+    booking = {
+        "id": new_id(),
+        "user_id": user_id,
+        "mentor_id": mentor_id,
+        "mentor_name": m["name"],
+        "mentor_role": m["role"],
+        "slot": body.slot,
+        "note": body.note or "",
+        "status": "confirmed",
+        "at": now_iso(),
+    }
+    await db.bookings.insert_one(booking)
+    booking.pop("_id", None)
+    return {"ok": True, "booking": booking}
+
+
+@api.get("/mentors/bookings")
+async def list_bookings(user_id: str = Depends(get_current_user_id)):
+    items = await db.bookings.find({"user_id": user_id}, {"_id": 0}).sort("at", -1).to_list(50)
+    return items
+
+
+# ---------- Certificates ----------
+@api.get("/certificates")
+async def list_certificates(user_id: str = Depends(get_current_user_id)):
+    """Earned + available certificates. Earned = group projects with 100% tasks + sample issued."""
+    doc = await db.users.find_one({"id": user_id})
+    earned = []
+    # Sample earned cert if user has solved >=2 problems
+    if len(doc.get("completed_problems", [])) >= 2:
+        earned.append({
+            "id": "cert_dsa_starter",
+            "title": "DSA Starter Certificate",
+            "issued_to": doc["name"],
+            "issued_on": doc.get("last_active") or now_iso()[:10],
+            "skills": ["Arrays", "Hashmaps", "Stack"],
+            "participation": 100,
+            "project": None,
+            "level_required": 1,
+        })
+    # Group certs for groups with 100% completion
+    for g in SAMPLE_GROUPS:
+        done_ratio = sum(1 for t in g["tasks"] if t["done"]) / len(g["tasks"])
+        if done_ratio == 1.0:
+            earned.append({
+                "id": f"cert_{g['id']}",
+                "title": f"{g['project']} — Team Certificate",
+                "issued_to": doc["name"],
+                "issued_on": now_iso()[:10],
+                "skills": [],
+                "participation": 100,
+                "project": g["project"],
+                "level_required": 1,
+            })
+    # Level-based achievement certificates
+    lvl = doc.get("level", 1)
+    achievements = [
+        {"id": "cert_lvl5",  "title": "Social Unlocked",      "level_required": 5,  "desc": "Reached Level 5 — Connect unlocked"},
+        {"id": "cert_lvl10", "title": "Squad Builder",        "level_required": 10, "desc": "Reached Level 10 — Group lead status"},
+        {"id": "cert_lvl15", "title": "Voice AI Adept",       "level_required": 15, "desc": "Reached Level 15 — Voice AI & Meet unlocked"},
+        {"id": "cert_lvl20", "title": "SkillSync Architect",  "level_required": 20, "desc": "Reached Level 20 — Mentor track"},
+    ]
+    for a in achievements:
+        if lvl >= a["level_required"]:
+            earned.append({
+                "id": a["id"], "title": a["title"], "issued_to": doc["name"],
+                "issued_on": now_iso()[:10], "skills": [], "participation": 100,
+                "project": a["desc"], "level_required": a["level_required"],
+            })
+    locked = [a for a in achievements if lvl < a["level_required"]]
+    return {"earned": earned, "locked": locked, "level": lvl}
+
+
+# ---------- Demo: set level (for presentations) ----------
+@api.post("/dev/set-level", response_model=UserPublic)
+async def set_level(body: SetLevelIn, user_id: str = Depends(get_current_user_id)):
+    lvl = max(1, min(25, body.level))
+    xp = (lvl - 1) * 200
+    await db.users.update_one({"id": user_id}, {"$set": {"level": lvl, "xp": xp}})
+    doc = await db.users.find_one({"id": user_id})
+    return user_doc_to_public(doc)
 
 
 # ---------- Connect / Social ----------

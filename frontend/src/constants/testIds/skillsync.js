@@ -54,4 +54,17 @@ export const TID = {
   connectCard: (id) => `connect-card-${id}`,
   connectRequestBtn: (id) => `connect-request-${id}`,
   aiMatchBtn: "ai-match-btn",
+
+  // level switcher (demo)
+  levelSwitcherBtn: "level-switcher-btn",
+  levelOption: (lvl) => `level-option-${lvl}`,
+
+  // mentors booking
+  mentorBookBtn: (id) => `mentor-book-${id}`,
+  mentorSlotBtn: (slot) => `mentor-slot-${slot}`,
+  mentorConfirmBookBtn: "mentor-confirm-book-btn",
+
+  // certificates
+  certificateCard: (id) => `cert-card-${id}`,
+  certificateDownloadBtn: (id) => `cert-download-${id}`,
 };

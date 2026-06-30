@@ -15,6 +15,7 @@ import Groups from "./pages/Groups";
 import GroupDetail from "./pages/GroupDetail";
 import Mentors from "./pages/Mentors";
 import Connect from "./pages/Connect";
+import Certificates from "./pages/Certificates";
 import HowItWorks from "./pages/HowItWorks";
 
 import "@/App.css";
@@ -45,6 +46,7 @@ export default function App() {
             <Route path="groups/:id" element={<GroupDetail />} />
             <Route path="mentors" element={<Mentors />} />
             <Route path="connect" element={<Connect />} />
+            <Route path="certificates" element={<Certificates />} />
             <Route path="how-it-works" element={<HowItWorks />} />
           </Route>
         </Routes>

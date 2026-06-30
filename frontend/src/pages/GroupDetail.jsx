@@ -4,9 +4,10 @@ import { api } from "../lib/api";
 import { useAuth } from "../lib/auth";
 import { TID } from "../constants/testIds";
 import {
-  ArrowLeft, Video, Check, Circle, Send, Sparkles, Users, Award, Bot,
+  ArrowLeft, Video, Check, Circle, Send, Sparkles, Users, Award, Bot, Download,
 } from "lucide-react";
 import AIChatWidget from "../components/AIChatWidget";
+import { generateCertificatePdf } from "./Certificates";
 
 export default function GroupDetail() {
   const { id } = useParams();
@@ -149,12 +150,26 @@ export default function GroupDetail() {
             {certificateReady ? (
               <>
                 <div className="text-sm text-[#CCCCCC] mb-3">All tasks done — your certificate is ready.</div>
-                <div className="bg-[#0A0A0A] border border-[#FF6200]/40 rounded-xl p-5 text-center">
+                <div className="bg-[#0A0A0A] border border-[#FF6200]/40 rounded-xl p-5 text-center mb-3">
                   <div className="text-xs mono uppercase tracking-widest text-[#FF6200] mb-1">SkillSync · Certificate</div>
                   <div className="font-semibold text-lg">{user?.name}</div>
                   <div className="text-xs text-[#CCCCCC] mt-1">Participation: 100%</div>
                   <div className="text-xs text-[#CCCCCC]">Project: {g.project}</div>
                 </div>
+                <button
+                  onClick={() => generateCertificatePdf({
+                    id: `cert_${g.id}`,
+                    title: `${g.project} — Team Certificate`,
+                    issued_to: user?.name,
+                    issued_on: new Date().toISOString().slice(0, 10),
+                    skills: [],
+                    participation: 100,
+                    project: g.project,
+                  })}
+                  className="btn-primary w-full justify-center text-sm"
+                >
+                  <Download size={14}/> Download PDF
+                </button>
               </>
             ) : (
               <div className="text-sm text-[#888]">Certificate unlocks when all tasks are complete ({Math.round(completion * 100)}% done).</div>
