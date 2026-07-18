@@ -47,6 +47,9 @@ class UserPublic(BaseModel):
     connect_text: Optional[str] = ""
     education: Optional[str] = ""
     college: Optional[str] = ""
+    about: Optional[str] = ""
+    currently: Optional[str] = ""
+    stories: List[dict] = []
     level: int = 1
     xp: int = 0
     streak: int = 0
@@ -98,3 +101,17 @@ class BookMentorIn(BaseModel):
 
 class MessageIn(BaseModel):
     text: str
+
+
+class ProfileUpdate(BaseModel):
+    name: Optional[str] = None
+    about: Optional[str] = None
+    currently: Optional[str] = None
+    college: Optional[str] = None
+    education: Optional[str] = None
+
+
+class StoryIn(BaseModel):
+    text: str
+    emoji: Optional[str] = "✨"
+    theme: Optional[str] = "lime"  # lime | violet | peach | ocean | sand

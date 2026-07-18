@@ -461,36 +461,70 @@ CONNECT_USERS = [
         "bio": "Backend engineer obsessed with distributed systems and Postgres internals.",
         "avatar": "https://i.pravatar.cc/200?img=11", "level": 8, "tags": ["Go", "Postgres", "Kafka"],
         "education": "UG", "college": "IIT Bombay",
+        "about": "CS @ IIT Bombay, 3rd year. Spent the last summer interning at a fintech building payment rails. Obsessed with how big systems stay correct under chaos — Jepsen, distributed transactions, and Postgres internals are my comfort food.",
+        "currently": "Shipping a sliding-window rate limiter for fun + prepping for the Build-a-Thon next week.",
+        "stories": [
+            {"id": "s1", "emoji": "⚡", "theme": "lime", "text": "Hit Level 8 today. The system-design questions on this platform are no joke.", "created_at": "2026-02-22"},
+            {"id": "s2", "emoji": "🐘", "theme": "violet", "text": "Postgres EXPLAIN ANALYZE is genuinely my favourite movie.", "created_at": "2026-02-19"},
+            {"id": "s3", "emoji": "🚀", "theme": "ocean", "text": "Looking for ML folks at IIT Bombay for the next Build-a-Thon. DM me.", "created_at": "2026-02-15"},
+        ],
     },
     {
         "id": "cu_2", "name": "Sofia Martins", "goal": "frontend",
         "bio": "Building beautiful UIs with React + GSAP. Currently exploring WebGL shaders.",
         "avatar": "https://i.pravatar.cc/200?img=23", "level": 7, "tags": ["React", "GSAP", "Design"],
         "education": "UG", "college": "BITS Pilani",
+        "about": "Frontend dev who thinks pixels are people. Started with HTML at 14, now writing custom GSAP timelines and shaders for fun. BITS Pilani · ECE → switching career to design engineering.",
+        "currently": "Reading 'The Book of Shaders' and building a portfolio site with full WebGL background.",
+        "stories": [
+            {"id": "s1", "emoji": "🎨", "theme": "peach", "text": "GSAP ScrollTrigger + Lenis = silky scroll heaven. Game changer.", "created_at": "2026-02-21"},
+            {"id": "s2", "emoji": "✨", "theme": "lime", "text": "Just finished a 12-hour Figma → React component sprint. Sleep deprived but happy.", "created_at": "2026-02-18"},
+        ],
     },
     {
         "id": "cu_3", "name": "Karim Hassan", "goal": "aiml",
         "bio": "MS in ML, currently fine-tuning small language models for code.",
         "avatar": "https://i.pravatar.cc/200?img=34", "level": 9, "tags": ["PyTorch", "LLMs", "Math"],
         "education": "PG", "college": "Stanford",
+        "about": "MS in ML at Stanford. Research focus: efficient fine-tuning of small LLMs for code review and reasoning. Previously at a Cairo-based startup building Arabic NLP.",
+        "currently": "Running LoRA experiments on a 3B param model. The eval harness is the actual hard part.",
+        "stories": [
+            {"id": "s1", "emoji": "🧠", "theme": "violet", "text": "If you haven't read the 'Attention is All You Need' paper this year, you're missing the plot.", "created_at": "2026-02-20"},
+            {"id": "s2", "emoji": "📉", "theme": "lime", "text": "Loss curve finally went down. After 11 failed runs. Welcome to ML.", "created_at": "2026-02-12"},
+        ],
     },
     {
         "id": "cu_4", "name": "Emma O'Connell", "goal": "fullstack",
         "bio": "Indie hacker, shipped 4 SaaS products. Loves rapid prototyping.",
         "avatar": "https://i.pravatar.cc/200?img=29", "level": 10, "tags": ["Next.js", "FastAPI", "SaaS"],
         "education": "Other", "college": "Self-taught",
+        "about": "Indie hacker. Shipped 4 small SaaS products, two profitable. Believer in shipping at 60% quality and iterating from real user feedback. Self-taught — never finished a CS degree.",
+        "currently": "Building a tiny analytics tool for solo founders. v0 in 14 days.",
+        "stories": [
+            {"id": "s1", "emoji": "🛠️", "theme": "sand", "text": "Day 6/14 of shipping in public. MRR target: $200 by end of month.", "created_at": "2026-02-23"},
+        ],
     },
     {
         "id": "cu_5", "name": "Yusuf Bello", "goal": "data_science",
         "bio": "Data scientist turning messy data into clear insights and dashboards.",
         "avatar": "https://i.pravatar.cc/200?img=36", "level": 6, "tags": ["SQL", "Pandas", "Tableau"],
         "education": "UG", "college": "IIT Bombay",
+        "about": "Data scientist at heart, charts whisperer by trade. Believe a great chart removes more confusion than 1000 words. IIT Bombay · IEOR.",
+        "currently": "Studying time-series forecasting + redesigning my Tableau portfolio.",
+        "stories": [
+            {"id": "s1", "emoji": "📊", "theme": "ocean", "text": "Pro tip: if your dashboard needs a legend, your colors are wrong.", "created_at": "2026-02-17"},
+        ],
     },
     {
         "id": "cu_6", "name": "Lin Wei", "goal": "backend",
         "bio": "Site reliability engineer. Kubernetes wrangler, chaos engineering fan.",
         "avatar": "https://i.pravatar.cc/200?img=14", "level": 10, "tags": ["K8s", "SRE", "Go"],
         "education": "PG", "college": "NUS Singapore",
+        "about": "SRE at scale. Kubernetes wrangler, chaos engineering fan. NUS Singapore · CS. Believe production is the only real test environment.",
+        "currently": "Running game-day exercises on our staging cluster every Friday.",
+        "stories": [
+            {"id": "s1", "emoji": "🔥", "theme": "peach", "text": "Tore down 3 services in staging today on purpose. All auto-recovered. Joy.", "created_at": "2026-02-22"},
+        ],
     },
 ]
 

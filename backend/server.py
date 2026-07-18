@@ -17,7 +17,8 @@ load_dotenv(ROOT_DIR / ".env")
 from models import (
     UserRegister, UserLogin, UserPublic, TokenResponse, OnboardingData,
     ChatMessageIn, SolveProblemIn, ConnectRequestIn, GroupChatIn,
-    SetLevelIn, BookMentorIn, MessageIn, now_iso, new_id,
+    SetLevelIn, BookMentorIn, MessageIn, ProfileUpdate, StoryIn,
+    now_iso, new_id,
 )
 from auth import hash_password, verify_password, create_token, get_current_user_id
 from ai_agents import stream_agent_response, get_agent_label
@@ -45,6 +46,9 @@ def user_doc_to_public(doc: dict) -> UserPublic:
         connect_text=doc.get("connect_text", ""),
         education=doc.get("education", ""),
         college=doc.get("college", ""),
+        about=doc.get("about", ""),
+        currently=doc.get("currently", ""),
+        stories=doc.get("stories", []),
         level=doc.get("level", 1),
         xp=doc.get("xp", 0),
         streak=doc.get("streak", 0),
@@ -350,6 +354,9 @@ def find_known_person(person_id: str) -> dict | None:
                     "bio": f"Member of {g['name']} — working on {g['project']}.",
                     "tags": [g.get("niche", "Mixed")],
                     "education": "UG", "college": "—",
+                    "about": f"Active member of the {g['name']} squad. Currently shipping {g['project']}.",
+                    "currently": g["project"],
+                    "stories": [],
                 }
     return None
 
@@ -457,16 +464,64 @@ async def send_message(contact_id: str, body: MessageIn, user_id: str = Depends(
 
 
 # ---------- Public profile (used by Connect cards, Messages, Group members) ----------
+@api.get("/profile/me")
+async def my_profile(user_id: str = Depends(get_current_user_id)):
+    doc = await db.users.find_one({"id": user_id})
+    if not doc:
+        raise HTTPException(404, "User not found")
+    # Self profile = full user public payload + synthesized counts
+    groups_in = [
+        {"id": g["id"], "name": g["name"], "project": g["project"],
+         "progress": g["progress"], "niche": g.get("niche", "Mixed")}
+        for g in SAMPLE_GROUPS
+        if user_id in [m["id"] for m in g["members"]]
+    ]
+    return {
+        **user_doc_to_public(doc).model_dump(),
+        "connections_count": len(CONNECT_USERS),
+        "groups": groups_in,
+        "groups_count": len(groups_in),
+    }
+
+
+@api.patch("/profile/me")
+async def update_my_profile(body: ProfileUpdate, user_id: str = Depends(get_current_user_id)):
+    update = {k: v for k, v in body.model_dump().items() if v is not None}
+    if update:
+        await db.users.update_one({"id": user_id}, {"$set": update})
+    doc = await db.users.find_one({"id": user_id})
+    return user_doc_to_public(doc)
+
+
+@api.post("/profile/me/story")
+async def add_story(body: StoryIn, user_id: str = Depends(get_current_user_id)):
+    story = {
+        "id": new_id(),
+        "text": body.text[:280],
+        "emoji": body.emoji or "✨",
+        "theme": body.theme or "lime",
+        "created_at": now_iso()[:10],
+    }
+    await db.users.update_one({"id": user_id}, {"$push": {"stories": {"$each": [story], "$position": 0}}})
+    doc = await db.users.find_one({"id": user_id})
+    return {"ok": True, "story": story, "user": user_doc_to_public(doc)}
+
+
+@api.delete("/profile/me/story/{story_id}")
+async def delete_story(story_id: str, user_id: str = Depends(get_current_user_id)):
+    await db.users.update_one({"id": user_id}, {"$pull": {"stories": {"id": story_id}}})
+    doc = await db.users.find_one({"id": user_id})
+    return user_doc_to_public(doc)
+
+
 @api.get("/profile/{person_id}")
 async def get_profile(person_id: str, user_id: str = Depends(get_current_user_id)):
     p = find_known_person(person_id)
     if not p:
         raise HTTPException(404, "Profile not found")
-    # Synthesize connections + groups counts deterministically
     import hashlib
     seed = hashlib.md5(person_id.encode()).hexdigest()
     connections_count = 12 + (int(seed[:4], 16) % 80)
-    # Count groups where this person is a member
     groups_in = []
     for g in SAMPLE_GROUPS:
         if any(m["id"] == person_id for m in g["members"]):
@@ -479,6 +534,9 @@ async def get_profile(person_id: str, user_id: str = Depends(get_current_user_id
         "level": p.get("level", 1),
         "goal": p.get("goal", "fullstack"),
         "bio": p.get("bio", ""),
+        "about": p.get("about", ""),
+        "currently": p.get("currently", ""),
+        "stories": p.get("stories", []),
         "tags": p.get("tags", []),
         "education": p.get("education", ""),
         "college": p.get("college", ""),
